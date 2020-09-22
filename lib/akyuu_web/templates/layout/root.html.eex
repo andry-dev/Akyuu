@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "Akyuu" %>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body>
+  <header>
+    <section class="container">
+      <nav role="navigation">
+        <ul>
+          <%= if Pow.Plug.current_user(@conn) do %>
+            <li>
+              Logged in as <%= @current_user.username %>
+            </li>
+            <li>
+              <%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
+            </li>
+          <% else %>
+            <li>
+              <%= link "Register", to: Routes.pow_registration_path(@conn, :new) %>
+            </li>
+            <li>
+              <%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+      <a href="/" class="logo">
+        <img src="<%= Routes.static_path(@conn, "/images/akyuu.svg") %>" alt="Phoenix Framework Logo"/>
+      </a>
+      <a href="/users">Users</a>
+    </section>
+  </header>
+  <%= @inner_content %>
+  </body>
+</html>

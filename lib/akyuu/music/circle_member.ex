@@ -1,4 +1,4 @@
-defmodule Akyuu.CircleMember do
+defmodule Akyuu.Music.CircleMember do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,8 +6,8 @@ defmodule Akyuu.CircleMember do
   schema "circles_members" do
     field :role, :string
 
-    belongs_to :circle, Akyuu.Circle, primary_key: true
-    belongs_to :member, Akyuu.Member, primary_key: true
+    belongs_to :circle, Akyuu.Music.Circle, primary_key: true
+    belongs_to :member, Akyuu.Music.Member, primary_key: true
 
     timestamps()
   end

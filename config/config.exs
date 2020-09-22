@@ -18,6 +18,13 @@ config :akyuu, AkyuuWeb.Endpoint,
   pubsub_server: Akyuu.PubSub,
   live_view: [signing_salt: "AJqe7dNE"]
 
+config :akyuu, :pow,
+  repo: Akyuu.Repo,
+  user: Akyuu.Accounts.User,
+  web_module: AkyuuWeb,
+  # extensions: [],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

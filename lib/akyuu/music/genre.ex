@@ -1,11 +1,11 @@
-defmodule Akyuu.Genre do
+defmodule Akyuu.Music.Genre do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "genres" do
     field :name, :string
 
-    many_to_many :album, Akyuu.Album, join_through: Akyuu.AlbumGenre
+    many_to_many :album, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumGenre
 
     timestamps()
   end

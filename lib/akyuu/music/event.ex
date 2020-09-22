@@ -1,4 +1,4 @@
-defmodule Akyuu.Event do
+defmodule Akyuu.Music.Event do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -10,7 +10,7 @@ defmodule Akyuu.Event do
     field :start_date, :date
     field :end_date, :date
 
-    many_to_many :album, Akyuu.Album, join_through: Akyuu.AlbumEvent
+    many_to_many :album, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumEvent
 
     timestamps()
   end

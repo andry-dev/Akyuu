@@ -1,22 +1,52 @@
 defmodule AkyuuWeb.Router do
   use AkyuuWeb, :router
+  use Pow.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_root_layout, {AkyuuWeb.LayoutView, :root}
+  end
+
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated,
+      error_handler: Pow.Phoenix.PlugErrorHandler
   end
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/", AkyuuWeb do
+  scope "/", Pow.Phoenix, as: "pow" do
     pipe_through :browser
 
+    get "/users/edit", RegistrationController, :edit
+    get "/users/new", RegistrationController, :new
+    post "/users", RegistrationController, :create
+    patch "/users", RegistrationController, :update
+    put "/users", RegistrationController, :update
+    delete "/users", RegistrationController, :delete
+
+    get "/session/new", SessionController, :new
+    post "/session", SessionController, :create
+    delete "/session", SessionController, :delete
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    pow_routes()
+  end
+
+  scope "/", AkyuuWeb do
+    pipe_through [:browser]
+
     get "/", PageController, :index
+    live "/users", UserLive, :index
+    get "/users/:id", UserController, :show
   end
 
   # Other scopes may use custom stacks.

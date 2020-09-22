@@ -1,4 +1,4 @@
-defmodule Akyuu.AlbumEvent do
+defmodule Akyuu.Music.AlbumEvent do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,8 +6,8 @@ defmodule Akyuu.AlbumEvent do
   schema "albums_events" do
     field :price_jpy, :integer, default: 1000
 
-    belongs_to :album, Akyuu.Album, primary_key: true
-    belongs_to :event, Akyuu.Event, primary_key: true
+    belongs_to :album, Akyuu.Music.Album, primary_key: true
+    belongs_to :event, Akyuu.Music.Event, primary_key: true
 
     timestamps()
   end
