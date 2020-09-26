@@ -1,4 +1,4 @@
-defmodule Akyuu.Music.TrackMemeber do
+defmodule Akyuu.Music.TrackMember do
   use Ecto.Schema
   import Ecto.Changeset
 
