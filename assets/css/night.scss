@@ -1,0 +1,23 @@
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #201;
+        --code-background: #1A2222;
+
+        --text: #EEE;
+        --text-code-hl: rgb(150, 0, 0);
+
+        --header-background: #705;
+        --header-border: #646;
+
+        --link: rgb(150, 150, 255);
+        --link-visited: rgb(220, 220, 220);
+        --link-active: #EEE;
+        --link-hover: #FFF;
+
+        --search-results: var(--background);
+        --search-results-shadow: rgba(255, 255, 255, 0.2);
+    }
+
+    .logo {
+    }
+}

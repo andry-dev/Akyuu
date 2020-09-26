@@ -1,0 +1,21 @@
+@media (prefers-color-scheme: light) {
+    :root {
+        --background: #FFF;
+        --code-background: #FFFFD7;
+
+        --text: #322;
+        --text-code-hl: rgb(150, 0, 0);
+
+        --header-background: #FAFAFA;
+        --header-border: #FEF;
+
+        --link: rgb(0, 0, 50);
+        --link-visited: rgb(0, 75, 50);
+        --link-active: #EEE;
+        --link-hover: #000;
+
+        --search-results: #FFF;
+        --search-results-shadow: rgba(101, 119, 134, 0.2);
+        --search-results-border: #AAA;
+    }
+}
