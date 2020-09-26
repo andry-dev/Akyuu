@@ -19,7 +19,6 @@ defmodule Akyuu.Accounts do
   def list_users do
     User
     |> Repo.all()
-    |> Repo.preload(:wanted_album)
   end
 
   @spec search_user(String.t()) :: nil | [Ecto.Schema.t()] | Ecto.Schema.t()

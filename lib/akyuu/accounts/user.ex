@@ -10,16 +10,15 @@ defmodule Akyuu.Accounts.User do
 
   use Pow.Extension.Ecto.Schema
 
-  # extensions: []
-
   import Ecto.Changeset
   import Ecto.Query
 
-  # alias AkyuuCrypto.PasswordField
   alias Akyuu.Accounts.User
 
   schema "users" do
     field :username, :string
+    field :public?, :boolean, source: :is_public, default: false
+    field :indexed?, :boolean, source: :is_indexed, default: false
 
     many_to_many :wanted_album, Akyuu.Music.Album,
       join_through: Akyuu.Accounts.UserWishlist,
@@ -32,6 +31,7 @@ defmodule Akyuu.Accounts.User do
 
   def changeset(user, attrs) do
     user
+    |> cast(attrs, [:username, :public?, :indexed?])
     |> pow_user_id_field_changeset(attrs)
     |> pow_changeset(attrs)
     |> pow_extension_changeset(attrs)
@@ -48,6 +48,7 @@ defmodule Akyuu.Accounts.User do
   @spec search(User, String.t()) :: %Ecto.Query{}
   def search(schema, username) do
     from user in schema,
+      where: [public?: true, indexed?: true],
       where: like(user.username, ^"%#{username}%")
   end
 end

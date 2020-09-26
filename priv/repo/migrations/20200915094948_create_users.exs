@@ -6,9 +6,10 @@ defmodule Akyuu.Repo.Migrations.CreateUsers do
       add :username, :string
       add :email, :string
       add :password_hash, :binary
+      add :is_public, :boolean, default: false
+      add :is_indexed, :boolean, default: false
 
       timestamps()
     end
-
   end
 end

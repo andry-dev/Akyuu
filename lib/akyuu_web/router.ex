@@ -45,7 +45,6 @@ defmodule AkyuuWeb.Router do
     pipe_through [:browser]
 
     get "/", PageController, :index
-    live "/users", UserLive, :index
     get "/users/:id", UserController, :show
   end
 
