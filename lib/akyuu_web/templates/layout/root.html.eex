@@ -20,6 +20,12 @@
               Logged in as <%= @current_user.username %>
             </li>
             <li>
+                <%= link "Profile", to: Routes.user_path(@conn, :show, @conn.assigns.current_user.id) %>
+            </li>
+            <li>
+                <%= link "Settings", to: Routes.pow_registration_path(@conn, :edit) %>
+            </li>
+            <li>
               <%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
             </li>
           <% else %>

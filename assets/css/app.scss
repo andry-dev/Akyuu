@@ -8,6 +8,7 @@ body {
     background-color: var(--background);
     color: var(--text);
     font: 1em system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+    font-size: 16px;
     margin: 0;
 }
 
@@ -16,7 +17,6 @@ body {
     max-width: 80.0rem;
     padding: 0 2.0rem;
     position: relative;
-    width: 75%;
 }
 
 select {
@@ -31,30 +31,35 @@ select {
     border: 1px solid transparent;
     border-radius: 4px;
 }
+
 .alert-info {
     color: #31708f;
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
+
 .alert-warning {
     color: #8a6d3b;
     background-color: #fcf8e3;
     border-color: #faebcc;
 }
+
 .alert-danger {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
 }
+
 .alert p {
     margin-bottom: 0;
 }
+
 .alert:empty {
     display: none;
 }
+
 .invalid-feedback {
     color: #a94442;
-    display: block;
     margin: -1rem 0 2rem;
 }
 
@@ -101,22 +106,49 @@ header nav a {
 }
 
 form {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
     display: flex;
     flex-direction: column;
-    width: 25%;
-    align-items: left;
+    align-items: flex-start;
     justify-content: center;
+
+    .form-entry {
+        width: 100%;
+        background-color: var(--form);
+        border-bottom: 2px solid var(--form-border);
+        border-radius: 2px;
+
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-top: 0.1rem;
+        padding-bottom: 0.1rem;
+    }
 
     label {
         text-align: left;
-        display: inline;
+        font-weight: bold;
     }
 
     input {
-        margin-bottom: 1rem;
-        margin-top: 1rem;
+        outline: none;
+        border: none;
+        appearance: none;
+        box-sizing: border-box;
+        background-color: var(--form);
+        resize: none;
+        overflow-wrap: break-word;
+        width: 100%;
+        font-size: 20px;
+        color: var(--text);
+    }
+
+    input[type=checkbox] {
+        float: right;
+        justify-content: space-between;
+        background-color: transparent;
+        appearance: checkbox;
+        width: auto;
     }
 }
 
@@ -125,7 +157,20 @@ form.search-form {
     padding: 0;
     display: initial;
     align-items: initial;
-    width: initial;
+
+    input {
+        color: var(--text);
+        appearance: searchfield;
+        background-color: transparent;
+        border: 0.2rem solid var(--search-bar);
+        border-radius: 0.2rem;
+        padding: 0.1rem;
+
+        &:focus {
+            border: 0.2rem solid var(--search-bar-active);
+        }
+    }
+
 }
 
 a {
@@ -144,6 +189,15 @@ a {
     }
 }
 
+hr {
+    border: 0;
+    border-bottom: 1px dashed var(--hr);
+    background: #000;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}
+
 input.search-bar {
     width: 100%;
 }
@@ -152,14 +206,14 @@ input.search-bar {
     z-index: 2;
     display: block;
     position: absolute;
-    width: 100%;
+    width: 94%;
     line-height: 1em;
     margin: 0;
     background-color: var(--search-results);
     border-radius: 0.5rem;
     padding: 3%;
     box-shadow: var(--search-results-shadow) 0px 0px 15px, var(--search-results-shadow) 0px 0px 3px 1px;
-    top: 0.1rem;
+    top: 0.5rem;
 }
 
 .results-box:blank {
@@ -191,13 +245,10 @@ input.search-bar {
     header nav ul {
         margin: 1rem;
     }
-
 }
 
 @media (max-width: 40rem) {
     form {
-        input {
-            width: 100%;
-        }
+        width: 100%;
     }
 }

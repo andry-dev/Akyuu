@@ -7,24 +7,65 @@
     </div>
   <% end %>
 
-  <%= label f, :current_password %>
-  <%= password_input f, :current_password %>
-  <%= error_tag f, :current_password %>
+  <div class="form-entry">
+    <%= label f, :current_password %>
+    <%= password_input f, :current_password %>
+    <%= error_tag f, :current_password %>
+  </div>
 
-  <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+  <div class="form-entry">
+    <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+  </div>
 
-  <%= label f, :password %>
-  <%= password_input f, :password %>
-  <%= error_tag f, :password %>
+  <div class="form-entry">
+    <%= label f, :password %>
+    <%= password_input f, :password %>
+    <%= error_tag f, :password %>
+  </div>
 
-  <%= label f, :password_confirmation %>
-  <%= password_input f, :password_confirmation %>
-  <%= error_tag f, :password_confirmation %>
+  <div class="form-entry">
+    <%= label f, :password_confirmation %>
+    <%= password_input f, :password_confirmation %>
+    <%= error_tag f, :password_confirmation %>
+  </div>
+
+  <div class="form-entry">
+    <%= label f, :public?  do %>
+      Should this profile be public?
+      <%= checkbox f, :public?  %>
+    <% end %>
+    <p>
+    A public profile can be looked up by visiting <code>"/users/&lt;ID&gt;"</code>.<br/>
+    Everyone (including people not logged in) will be able to see your wishlist. Moreover, a public profile can be looked up in the search bar ("indexed", see option below).<br/>
+    A private profile can't be accessed publicly and can't be looked up in the search bar.
+    </p>
+  </div>
+
+  <div class="form-entry">
+    <%= label f, :indexed? do %>
+      Should this profile be indexed?
+      <%= checkbox f, :indexed? %>
+    <% end %>
+    <p>If your profile is public, enabling this option will allow users to look it up with the search bar at the top of the page.</p>
+  </div>
 
   <div>
     <%= submit "Update" %>
   </div>
 <% end %>
 
+<script>
+  const setIndexedBtn = function() {
+    const indexed = document.getElementById("user_indexed?");
+    indexed.disabled = !public.checked;
+    if (indexed.disabled) {
+      indexed.checked = false;
+    }
+  }
+  const public = document.getElementById("user_public?")
+  public.onclick = setIndexedBtn;
+
+  setIndexedBtn();
+</script>
