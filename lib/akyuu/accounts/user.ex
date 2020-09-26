@@ -13,6 +13,7 @@ defmodule Akyuu.Accounts.User do
   # extensions: []
 
   import Ecto.Changeset
+  import Ecto.Query
 
   # alias AkyuuCrypto.PasswordField
   alias Akyuu.Accounts.User
@@ -29,9 +30,6 @@ defmodule Akyuu.Accounts.User do
     timestamps()
   end
 
-  # @required_fields ~w(username email wanted_album password_hash)a
-
-  @spec changeset(Ecto.Schema.t(), map()) :: Ecto.Changeset.t()
   def changeset(user, attrs) do
     user
     |> pow_user_id_field_changeset(attrs)
@@ -45,5 +43,11 @@ defmodule Akyuu.Accounts.User do
     user
     |> cast(%{}, [:wanted_album])
     |> put_assoc(:wanted_album, albums)
+  end
+
+  @spec search(User, String.t()) :: %Ecto.Query{}
+  def search(schema, username) do
+    from user in schema,
+      where: like(user.username, ^"%#{username}%")
   end
 end

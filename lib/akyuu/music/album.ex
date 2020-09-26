@@ -1,6 +1,7 @@
 defmodule Akyuu.Music.Album do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   schema "albums" do
     field :label, :string
@@ -14,7 +15,10 @@ defmodule Akyuu.Music.Album do
     many_to_many :genre, Akyuu.Music.Genre, join_through: Akyuu.Music.AlbumGenre
     many_to_many :event, Akyuu.Music.Event, join_through: Akyuu.Music.AlbumEvent
     many_to_many :circle, Akyuu.Music.Circle, join_through: Akyuu.Music.CircleAlbum
-    many_to_many :user_wants, Akyuu.Accounts.User, join_through: Akyuu.Accounts.UserWishlist, on_replace: :delete
+
+    many_to_many :user_wants, Akyuu.Accounts.User,
+      join_through: Akyuu.Accounts.UserWishlist,
+      on_replace: :delete
 
     timestamps()
   end
@@ -27,5 +31,14 @@ defmodule Akyuu.Music.Album do
     |> cast(attrs, @required_fields)
     |> validate_required([:label, :title])
     |> unique_constraint([:label])
+  end
+
+  def search(schema, name) do
+    to_search = "%#{name}%"
+
+    from album in schema,
+      where: like(album.title, ^to_search),
+      or_where: like(album.romaji_title, ^to_search),
+      or_where: like(album.english_title, ^to_search)
   end
 end
