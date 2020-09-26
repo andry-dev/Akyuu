@@ -9,6 +9,8 @@ defmodule Akyuu.Repo.Migrations.CreateEvents do
       add :edition, :integer, null: false, default: 1
       add :start_date, :date, null: false
       add :end_date, :date, null: false
+
+      timestamps()
     end
 
     create unique_index(:events, [:name, :edition])
