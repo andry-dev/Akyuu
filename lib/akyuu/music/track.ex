@@ -27,6 +27,15 @@ defmodule Akyuu.Music.Track do
       :english_title,
       :hidden?
     ])
-    |> validate_required([:id, :cd_number, :track_number, :title])
+    |> validate_required([:cd_number, :track_number, :title])
+  end
+
+  def search(schema, name) do
+    to_search = "%#{name}%"
+
+    from track in schema,
+      where: ilike(track.title, ^to_search),
+      or_where: ilike(track.romaji_title, ^to_search),
+      or_where: ilike(track.english_title, ^to_search)
   end
 end

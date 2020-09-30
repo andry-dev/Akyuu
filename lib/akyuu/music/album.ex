@@ -37,8 +37,10 @@ defmodule Akyuu.Music.Album do
     to_search = "%#{name}%"
 
     from album in schema,
-      where: like(album.title, ^to_search),
-      or_where: like(album.romaji_title, ^to_search),
-      or_where: like(album.english_title, ^to_search)
+      where: ilike(album.title, ^to_search),
+      or_where: ilike(album.romaji_title, ^to_search),
+      or_where: ilike(album.english_title, ^to_search),
+      or_where: ilike(album.label, ^to_search)
+  end
   end
 end

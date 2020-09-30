@@ -49,6 +49,6 @@ defmodule Akyuu.Accounts.User do
   def search(schema, username) do
     from user in schema,
       where: [public?: true, indexed?: true],
-      where: like(user.username, ^"%#{username}%")
+      where: ilike(user.username, ^"%#{username}%")
   end
 end

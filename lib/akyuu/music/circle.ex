@@ -25,8 +25,9 @@ defmodule Akyuu.Music.Circle do
     to_search = "%#{name}%"
 
     from circle in schema,
-      where: like(circle.name, ^to_search),
-      or_where: like(circle.romaji_name, ^to_search),
-      or_where: like(circle.english_name, ^to_search)
+      where: ilike(circle.name, ^to_search),
+      or_where: ilike(circle.romaji_name, ^to_search),
+      or_where: ilike(circle.english_name, ^to_search)
+  end
   end
 end

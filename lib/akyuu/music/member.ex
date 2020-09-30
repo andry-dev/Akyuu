@@ -20,4 +20,13 @@ defmodule Akyuu.Music.Member do
     |> validate_required([:name])
     |> unique_constraint([:name])
   end
+
+  def search(schema, name) do
+    to_search = "%#{name}%"
+
+    from member in schema,
+      where: ilike(member.name, ^to_search),
+      or_where: ilike(member.romaji_name, ^to_search),
+      or_where: ilike(member.english_name, ^to_search)
+  end
 end
