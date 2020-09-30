@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :akyuu, Akyuu.Repo,
-  username: "root",
-  password: "mariadb",
+  username: "postgres",
+  password: "postgres",
   database: "akyuu_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
