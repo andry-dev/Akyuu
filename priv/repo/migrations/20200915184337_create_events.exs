@@ -3,16 +3,13 @@ defmodule Akyuu.Repo.Migrations.CreateEvents do
 
   def change do
     create table(:events) do
-      add :name, :string, null: false
-      add :romaji_name, :string
-      add :abbreviation, :string
-      add :edition, :integer, null: false, default: 1
-      add :start_date, :date, null: false
-      add :end_date, :date, null: false
+      add :name, :text, null: false
+      add :romaji_name, :text
+      add :abbreviation, :text
 
       timestamps()
     end
 
-    create unique_index(:events, [:name, :edition])
+    create unique_index(:events, [:name])
   end
 end
