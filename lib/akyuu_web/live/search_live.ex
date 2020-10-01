@@ -7,7 +7,7 @@ defmodule AkyuuWeb.SearchLive do
   def render(assigns) do
     ~L"""
     <form class="search-form" phx-change="search">
-      <input type="text" name="q" value="<%= @query %>" placeholder="Search..." autocomplete="off" class="search-bar" />
+      <input type="text" name="q" value="<%= @query %>" placeholder="Global search..." autocomplete="off" class="search-bar" />
 
       <%= if @results != [] do %>
       <div style="position: relative">
@@ -15,21 +15,34 @@ defmodule AkyuuWeb.SearchLive do
           <%= if @results[:circles] != nil do %>
             <p class="results-category">Circles</p>
             <%= for circle <- @results[:circles] do %>
-              <div class="search-result"><%= circle.name %> (<%= circle.romaji_name %>)</div>
+              <div class="search-result"><%= display_circle(circle) %></div>
             <% end %>
           <% end %>
 
           <%= if @results[:albums] != nil do %>
             <p class="results-category">Albums</p>
             <%= for album <- @results[:albums] do %>
-              <div class="search-result"><%= album.title %> (<%= album.romaji_title %>)</div>
+              <div class="search-result">
+                <%= display_album(album) %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <%= if @results[:members] != nil do %>
+            <p class="results-category">Members</p>
+            <%= for member <- @results[:members] do %>
+            <div class="search-result">
+              <%= display_member(member) %>
+            </div>
             <% end %>
           <% end %>
 
           <%= if @results[:tracks] != nil do %>
             <p class="results-category">Tracks</p>
             <%= for track <- @results[:tracks] do %>
-              <div class="search-result"><%= track.title %></div>
+            <div class="search-result">
+              <%= display_track(track) %>
+            </div>
             <% end %>
           <% end %>
 
@@ -46,6 +59,42 @@ defmodule AkyuuWeb.SearchLive do
     """
   end
 
+  defp display_circle(circle) do
+    circle.name <>
+      if circle.romaji_name != nil do
+        " (" <> circle.romaji_name <> ")"
+      else
+        ""
+      end
+  end
+
+  defp display_track(track) do
+    track.title <>
+      if track.romaji_title != nil do
+        " (" <> track.romaji_title <> ")"
+      else
+        ""
+      end
+  end
+
+  defp display_album(album) do
+    album.title <>
+      if album.romaji_title != nil do
+        " (" <> album.romaji_title <> ")"
+      else
+        ""
+      end
+  end
+
+  defp display_member(member) do
+    member.name <>
+      if member.romaji_name != nil do
+        " (" <> member.romaji_name <> ")"
+      else
+        ""
+      end
+  end
+
   def mount(_params, _assigns, socket) do
     assigns = [
       query: nil,
@@ -59,7 +108,9 @@ defmodule AkyuuWeb.SearchLive do
     results = [
       users: search_users(query),
       albums: search_albums(query),
-      circles: search_circles(query)
+      circles: search_circles(query),
+      members: search_members(query),
+      tracks: search_tracks(query)
     ]
 
     assigns = [
@@ -89,6 +140,20 @@ defmodule AkyuuWeb.SearchLive do
     case query do
       "" -> []
       _ -> Music.search_circles(query)
+    end
+  end
+
+  defp search_tracks(query) do
+    case query do
+      "" -> []
+      _ -> Music.search_tracks(query)
+    end
+  end
+
+  defp search_members(query) do
+    case query do
+      "" -> []
+      _ -> Music.search_members(query)
     end
   end
 
