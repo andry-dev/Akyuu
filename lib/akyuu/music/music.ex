@@ -122,6 +122,61 @@ defmodule Akyuu.Music do
     |> Circle.search(name)
     |> Repo.all()
   end
+
+  @doc """
+  Returns all the members from the database which partially match the given
+  `name`.
+  The search is case-insensitive.
+  """
+  @spec search_members(String.t()) :: Member.t() | [Member.t()] | nil
+  def search_members(name) do
+    Member
+    |> Member.search(name)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns all the tracks from the database which partially match the given
+  `name`.
+  The search is case-insensitive.
+  """
+  @spec search_tracks(String.t()) :: Track.t() | [Track.t()] | nil
+  def search_tracks(name) do
+    Track
+    |> Track.search(name)
+    |> Repo.all()
+  end
+
+  @doc """
+  Creates a new album.
+  """
+  @spec create_album(attrs :: %{}) :: {:ok, Album.t()} | {:error, Ecto.Changeset.t()}
+  def create_album(attrs \\ %{}) do
+    %Album{}
+    |> Album.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Creates a new circle.
+  """
+  @spec create_circle(attrs :: %{}) :: {:ok, Circle.t()} | {:error, Ecto.Changeset.t()}
+  def create_circle(attrs \\ %{}) do
+    %Circle{}
+    |> Circle.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Creates a new member.
+  """
+  @spec create_member(attrs :: %{}) :: {:ok, Member.t()} | {:error, Ecto.Changeset.t()}
+  def create_member(attrs \\ %{}) do
+    %Member{}
+    |> Member.changeset(attrs)
+    |> Repo.insert()
+  end
+
   defp fill_event_date(opts) when is_list(opts) do
     if opts[:end_date] == nil do
       opts ++ [end_date: opts[:start_date]]
@@ -148,6 +203,26 @@ defmodule Akyuu.Music do
 
     %EventEdition{}
     |> EventEdition.changeset(changeset_attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Creates a new genre.
+  """
+  @spec create_genre(attrs :: %{}) :: {:ok, Genre.t()} | {:error, Ecto.Changeset.t()}
+  def create_genre(attrs \\ %{}) do
+    %Genre{}
+    |> Genre.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Creates a new track.
+  """
+  @spec create_track(attrs :: %{}) :: {:ok, Track.t()} | {:error, Ecto.Changeset.t()}
+  def create_track(attrs \\ %{}) do
+    %Track{}
+    |> Track.changeset(attrs)
     |> Repo.insert()
   end
 end

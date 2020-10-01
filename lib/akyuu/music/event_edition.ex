@@ -36,4 +36,23 @@ defmodule Akyuu.Music.EventEdition do
     |> unique_constraint([:edition])
     |> foreign_key_constraint(:event_id)
   end
+
+  @spec add_album(edition :: EventEdition.t(), album :: Album.t(), opts :: Keyword.t()) ::
+          {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+  def add_album(edition, album, opts \\ []) do
+    changeset_attrs =
+      Map.from_struct(
+        Kernel.struct(
+          %AlbumEvent{
+            album_id: album.id,
+            event_id: edition.event_id
+          },
+          opts
+        )
+      )
+
+    %AlbumEvent{}
+    |> AlbumEvent.changeset(changeset_attrs)
+    |> Repo.insert()
+  end
 end

@@ -1,7 +1,7 @@
 defmodule Akyuu.Accounts do
   import Ecto.Query, warn: false
   alias Akyuu.Repo
-  alias Akyuu.Accounts.User
+  alias Akyuu.Accounts.{User, UserWishlist}
 
   def create_user(attrs \\ %{}) do
     %User{}
@@ -28,6 +28,7 @@ defmodule Akyuu.Accounts do
     |> Repo.all()
   end
 
+  @spec search_user(String.t(), [atom()]) :: nil | [Ecto.Schema.t()] | Ecto.Schema.t()
   def search_user(name, preload_list) do
     User
     |> User.search(name)
@@ -37,5 +38,27 @@ defmodule Akyuu.Accounts do
 
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  @spec add_to_wishlist(User, Album) :: Ecto.Schema.t()
+  def add_to_wishlist(user, album) do
+    %UserWishlist{user_id: user.id, album_id: album.id}
+    |> Repo.insert!()
+  end
+
+  @spec remove_from_wishlist(User, Album) :: Ecto.Schema.t()
+  def remove_from_wishlist(user, album) do
+    %UserWishlist{user_id: user.id, album_id: album.id}
+    |> Repo.delete!()
+  end
+
+  @spec view_wishlist(User) :: nil | [Ecto.Schema.t()] | Ecto.Schema.t()
+  def view_wishlist(user) do
+    query =
+      from a in Akyuu.Music.Album,
+        join: w in UserWishlist,
+        on: w.album_id == a.id and w.user_id == ^user.id
+
+    Repo.all(query)
   end
 end
