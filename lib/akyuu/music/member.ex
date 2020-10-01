@@ -4,7 +4,21 @@ defmodule Akyuu.Music.Member do
   import Ecto.Query
 
   alias Akyuu.Repo
-  alias Akyuu.Music.{Member, Role, Track, TrackMember}
+  alias Akyuu.Music.{Role, Track, TrackMember}
+
+  @moduledoc """
+  A member is any person that is part of one or more circles.
+
+  A member may help create tracks ("perform") for circles they are not part of.
+  """
+
+  @type t :: %__MODULE__{
+          name: String.t(),
+          romaji_name: String.t(),
+          english_name: String.t(),
+          circles: [Akyuu.Music.Circle.t()],
+          tracks: [Akyuu.Music.Track.t()]
+        }
 
   schema "members" do
     field :name, :string
@@ -25,6 +39,7 @@ defmodule Akyuu.Music.Member do
     |> unique_constraint([:name])
   end
 
+  @doc false
   def search(schema, name) do
     to_search = "%#{name}%"
 
@@ -34,7 +49,20 @@ defmodule Akyuu.Music.Member do
       or_where: ilike(member.english_name, ^to_search)
   end
 
-  def add_performance(%Member{} = member, %Track{} = track, opts \\ []) do
+  @doc """
+  Adds a performance to a track.
+  That is, adds a relationship between a member of any circle and a track in any
+  album.
+
+  ## Parameters
+  - member: The member that performs in a track.
+  - track: The track where the member performs.
+  - opts: A keyword list of options with there keys:
+    - roles: A list of strings that specify which role the member has in the
+      creation of the track.
+  """
+  @spec add_performance(member :: t(), track :: Track.t(), opts :: Keyword.t()) :: t()
+  def add_performance(member, track, opts \\ []) do
     found_roles =
       from r in Role,
         where: r.name in ^opts[:roles]

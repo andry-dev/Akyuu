@@ -1,6 +1,18 @@
 defmodule Akyuu.Music.Track do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
+
+  @type t :: %__MODULE__{
+          title: String.t(),
+          romaji_title: String.t(),
+          english_title: String.t(),
+          cd_number: integer(),
+          track_number: integer(),
+          hidden?: boolean(),
+          albums: [Akyuu.Music.Album.t()],
+          members: [Akyuu.Music.Member.t()]
+        }
 
   schema "tracks" do
     field :cd_number, :integer
@@ -10,8 +22,8 @@ defmodule Akyuu.Music.Track do
     field :english_title, :string
     field :hidden?, :boolean, source: :is_hidden, default: false
 
-    many_to_many :album, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumTrack
-    many_to_many :member, Akyuu.Music.Member, join_through: Akyuu.Music.TrackMember
+    many_to_many :albums, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumTrack
+    many_to_many :members, Akyuu.Music.Member, join_through: Akyuu.Music.TrackMember
 
     timestamps()
   end

@@ -2,10 +2,15 @@ defmodule Akyuu.Music.Genre do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{
+          name: String.t(),
+          albums: [Akyuu.Music.Album.t()]
+        }
+
   schema "genres" do
     field :name, :string
 
-    many_to_many :album, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumGenre
+    many_to_many :albums, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumGenre
 
     timestamps()
   end

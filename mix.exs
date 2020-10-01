@@ -10,7 +10,16 @@ defmodule Akyuu.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      name: "Akyuu",
+      source_url: "https://github.com/andry-dev/Akyuu",
+      docs: [
+        main: "Akyuu",
+        logo: "assets/static/images/akyuu_vinyl.svg",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -33,6 +42,7 @@ defmodule Akyuu.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ex_doc, "~> 0.22.6", only: :dev, runtime: false},
       {:phoenix, "~> 1.5.4"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},

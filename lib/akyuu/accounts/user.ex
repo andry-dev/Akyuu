@@ -15,12 +15,19 @@ defmodule Akyuu.Accounts.User do
 
   alias Akyuu.Accounts.User
 
+  @type t :: %__MODULE__{
+          username: String.t(),
+          public?: boolean(),
+          indexed?: boolean(),
+          wanted_albums: [Akyuu.Music.Album.t()]
+        }
+
   schema "users" do
     field :username, :string
     field :public?, :boolean, source: :is_public, default: false
     field :indexed?, :boolean, source: :is_indexed, default: false
 
-    many_to_many :wanted_album, Akyuu.Music.Album,
+    many_to_many :wanted_albums, Akyuu.Music.Album,
       join_through: Akyuu.Accounts.UserWishlist,
       on_replace: :delete
 
@@ -31,18 +38,19 @@ defmodule Akyuu.Accounts.User do
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :public?, :indexed?])
     |> pow_user_id_field_changeset(attrs)
     |> pow_changeset(attrs)
     |> pow_extension_changeset(attrs)
+    |> cast(attrs, [:username, :public?, :indexed?])
     |> unique_constraint([:username])
+    |> validate_length(:username, max: 255)
   end
 
   @doc false
   def changeset_update_wishlist(%User{} = user, albums) do
     user
     |> cast(%{}, [:wanted_album])
-    |> put_assoc(:wanted_album, albums)
+    |> put_assoc(:wanted_albums, albums)
   end
 
   @spec search(User, String.t()) :: %Ecto.Query{}
