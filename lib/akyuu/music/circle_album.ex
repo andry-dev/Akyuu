@@ -17,5 +17,7 @@ defmodule Akyuu.Music.CircleAlbum do
   def changeset(circles_albums, attrs) do
     circles_albums
     |> cast(attrs, [:circle_id, :album_id])
+    |> foreign_key_constraint(:circle_id)
+    |> foreign_key_constraint(:album_id)
   end
 end

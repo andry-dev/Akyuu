@@ -1,5 +1,8 @@
 defmodule Akyuu.Music.CircleMemberRole do
+  @moduledoc false
+
   use Ecto.Schema
+
   import Ecto.Changeset
 
   schema "circles_members_roles" do

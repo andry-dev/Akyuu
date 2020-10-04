@@ -17,6 +17,7 @@ defmodule Akyuu.Music.AlbumEvent do
   @type t :: %__MODULE__{
           price_jpy: non_neg_integer()
         }
+
   @primary_key false
   schema "albums_events" do
     field :price_jpy, :integer, default: 1000
@@ -31,6 +32,9 @@ defmodule Akyuu.Music.AlbumEvent do
   def changeset(albums_events, attrs) do
     albums_events
     |> cast(attrs, [:price_jpy, :album_id, :event_id])
-    |> validate_length(:price_jpy, min: 0)
+    |> validate_required([:price_jpy])
+    |> validate_number(:price_jpy, greater_than_or_equal_to: 0)
+    |> foreign_key_constraint(:album_id)
+    |> foreign_key_constraint(:event_id)
   end
 end

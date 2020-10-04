@@ -17,5 +17,7 @@ defmodule Akyuu.Music.AlbumTrack do
   def changeset(albums_tracks, attrs) do
     albums_tracks
     |> cast(attrs, [:album_id, :track_id])
+    |> foreign_key_constraint(:album_id)
+    |> foreign_key_constraint(:track_id)
   end
 end

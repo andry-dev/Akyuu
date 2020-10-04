@@ -177,33 +177,32 @@ defmodule Akyuu.Music do
     |> Repo.insert()
   end
 
-  defp fill_event_date(opts) when is_list(opts) do
-    if opts[:end_date] == nil do
-      opts ++ [end_date: opts[:start_date]]
-    else
-      opts
-    end
-  end
-
   @doc """
   Creates a new event.
   """
-  @spec create_event(name :: Event.event_name(), opts :: Keyword.t()) ::
-          {:ok, EventEdition.t()} | {:error, Ecto.Changeset.t()}
+  @spec create_event(
+          name :: Event.event_name(),
+          opts :: [edition: non_neg_integer(), start_date: Date.t(), end_date: Date.t()]
+        ) ::
+          {:ok, EventEdition.t()} | {:error, atom()} | {:error, Ecto.Changeset.t()}
   def create_event(name, opts) when is_list(opts) do
     event_name = Event.generate(name)
 
-    found_event = Repo.get_by(Event, name: event_name.name) || Repo.insert!(event_name)
+    found_event =
+      Repo.get_by(Event, name: event_name.name) ||
+        Repo.insert!(event_name)
 
-    changeset_attrs =
-      opts
-      |> fill_event_date()
-      |> Enum.into(%{})
-      |> Map.put(:event_id, found_event.id)
+    attrs = opts |> Enum.into(%{})
 
-    %EventEdition{}
-    |> EventEdition.changeset(changeset_attrs)
-    |> Repo.insert()
+    case EventEdition.new(attrs) do
+      {:ok, new_edition} ->
+        new_edition
+        |> EventEdition.changeset(%{event_id: found_event.id})
+        |> Repo.insert()
+
+      {:error, error_type} ->
+        {:error, error_type}
+    end
   end
 
   @doc """

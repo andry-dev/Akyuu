@@ -60,9 +60,8 @@ defmodule Akyuu.Music.Album do
     many_to_many :tracks, Akyuu.Music.Track, join_through: Akyuu.Music.AlbumTrack
     many_to_many :genres, Akyuu.Music.Genre, join_through: Akyuu.Music.AlbumGenre
 
-    many_to_many :events, Akyuu.Music.EventEdition,
-      join_through: Akyuu.Music.AlbumEvent,
-      join_keys: [album_id: :id, event_id: :id]
+    has_many :event_participations, Akyuu.Music.AlbumEvent
+    has_many :events, through: [:event_participations, :event]
 
     many_to_many :circles, Akyuu.Music.Circle, join_through: Akyuu.Music.CircleAlbum
 

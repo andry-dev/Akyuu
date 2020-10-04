@@ -16,17 +16,20 @@ defmodule Akyuu.Music.Event do
 
   alias Akyuu.Music.EventEdition
   alias Akyuu.Repo
+
   @type t :: %__MODULE__{
           name: String.t(),
+          english_name: String.t(),
           romaji_name: String.t(),
           abbreviation: String.t(),
-          editions: [Akyuu.Music.EventEdition.t()]
+          editions: [EventEdition.t()]
         }
 
   @type event_name :: :comiket | :reitaisai | :autumn_reitaisai | :m3
 
   schema "events" do
     field :name, :string
+    field :english_name, :string
     field :romaji_name, :string
     field :abbreviation, :string
 
@@ -77,35 +80,38 @@ defmodule Akyuu.Music.Event do
         updated_at: nil
       }
   """
-  @spec generate(event :: event_name()) :: Event.t()
+  @spec generate(event :: event_name()) :: %__MODULE__{}
   def generate(event)
 
   def generate(:comiket) do
     %__MODULE__{
       name: "コミックマーケット",
+      english_name: "Comiket",
       romaji_name: "Komikku Maketto",
-      abbreviation: "comiket"
+      abbreviation: "C"
     }
   end
 
   def generate(:reitaisai) do
     %__MODULE__{
       name: "博麗神社例大祭",
+      english_name: "Hakurei Shrine Reitaisai",
       romaji_name: "Hakurei Jinja Reitaisai",
-      abbreviation: "reitaisai"
+      abbreviation: "RTS"
     }
   end
 
   def generate(:autumn_reitaisai) do
     %__MODULE__{
       name: "博麗神社秋季例大祭",
+      english_name: "Autumn Hakurei Shrine Reitaisai",
       romaji_name: "Hakurei Jinja Shuuki Reitaisai",
-      abbreviation: "shuuki reitaisai"
+      abbreviation: "ARTS"
     }
   end
 
   def generate(:m3) do
-    %__MODULE__{name: "M3", abbreviation: "m3"}
+    %__MODULE__{name: "M3", abbreviation: "M3"}
   end
 
   @doc """
@@ -136,12 +142,12 @@ defmodule Akyuu.Music.Event do
   @spec find_event(name :: event_name(), edition :: integer()) ::
           Akyuu.Music.EventEdition.t() | nil
   def find_event(name, edition) do
-    abbr = generate(name).abbreviation
+    event_name = generate(name).name
 
     query =
       from event_edition in EventEdition,
         join: event in assoc(event_edition, :event),
-        where: event.abbreviation == ^abbr,
+        where: event.name == ^event_name,
         where: event_edition.edition == ^edition
 
     Repo.one(query)

@@ -17,5 +17,7 @@ defmodule Akyuu.Music.AlbumGenre do
   def changeset(album_genre, attrs) do
     album_genre
     |> cast(attrs, [:album_id, :genre_id])
+    |> foreign_key_constraint(:album_id)
+    |> foreign_key_constraint(:genre_id)
   end
 end

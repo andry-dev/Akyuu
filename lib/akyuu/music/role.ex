@@ -11,7 +11,14 @@ defmodule Akyuu.Music.Role do
   """
 
   use Ecto.Schema
+
   import Ecto.Changeset
+
+  @type t :: %__MODULE__{
+          name: String.t(),
+          circle_members: [Akyuu.Music.CircleMember],
+          track_members: [Akyuu.Music.TrackMember]
+        }
 
   schema "roles" do
     field :name, :string
@@ -27,6 +34,7 @@ defmodule Akyuu.Music.Role do
     timestamps()
   end
 
+  @doc false
   def changeset(role, attrs \\ %{}) do
     role
     |> cast(attrs, [:name])
