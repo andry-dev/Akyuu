@@ -6,6 +6,8 @@ defmodule AkyuuWeb.SearchLive do
   """
   use AkyuuWeb, :live_view
 
+  import AkyuuWeb.View.Helpers
+
   alias Akyuu.Accounts
   alias Akyuu.Music
 
@@ -28,7 +30,10 @@ defmodule AkyuuWeb.SearchLive do
             <p class="results-category">Albums</p>
             <%= for album <- @results[:albums] do %>
               <div class="search-result">
-                <%= display_album(album) %>
+                <a href="/album/<%= album.id %>"><%= album.title %></a>
+                <%= if album.romaji_title do %>
+                  (<span class="album-romaji-title"><%= album.romaji_title %></span>)
+                <% end %>
               </div>
             <% end %>
           <% end %>
@@ -121,8 +126,6 @@ defmodule AkyuuWeb.SearchLive do
     assigns = [
       results: filter_list(results)
     ]
-
-    IO.inspect(assigns)
 
     {:noreply, assign(socket, assigns)}
   end

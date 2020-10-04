@@ -112,6 +112,15 @@ defmodule Akyuu.Music do
   end
 
   @doc """
+  Finds an album by its id.
+  """
+  @spec find_album_by_id(id :: non_neg_integer(), preload_list :: [atom()]) :: Album.t() | nil
+  def find_album_by_id(id, preload_list \\ []) do
+    Repo.get(Album, id)
+    |> Repo.preload(preload_list)
+  end
+
+  @doc """
   Returns all the circles from the database which partially match the given
   `name`.
   The search is case-insensitive.

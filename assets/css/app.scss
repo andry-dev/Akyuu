@@ -235,6 +235,91 @@ input.search-bar {
 .search-result {
     border-bottom: 1px solid var(--search-results-border);
     cursor: pointer;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+[title] {
+    border-bottom: 2px dotted;
+}
+
+h1.album-romaji-title {
+    font-style: italic;
+}
+
+
+.album-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    flex: 1;
+}
+
+.tracks, .events {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    width: 50%;
+}
+
+.track-title, .event-name {
+    font-weight: bold;
+}
+
+.event-romaji-name {
+    font-style: italic;
+}
+
+.event-price {
+    font-weight: bold;
+}
+
+.track-romaji-title {
+    font-style: italic;
+}
+
+.track-member-romaji {
+    font-style: italic;
+}
+
+.track-instrumental, .event-date {
+    float: right;
+}
+
+.circle-romaji-name {
+    font-style: italic;
+}
+
+details {
+    background-color: var(--details);
+
+    border-bottom: 2px solid var(--form-border);
+    border-radius: 2px;
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+
+    summary {
+        cursor: pointer;
+
+        background-color: var(--summary);
+    }
+
+    ul {
+
+        margin: 0;
+
+        li {
+            list-style: none;
+        }
+    }
 }
 
 @media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
