@@ -105,6 +105,31 @@ header nav a {
     display: block;
 }
 
+a {
+    color: var(--link);
+
+    &:hover {
+        color: var(--link-hover);
+    }
+
+    &:visited {
+        color: var(--link-visited);
+    }
+
+    &:active {
+        color: var(--link-active);
+    }
+}
+
+hr {
+    border: 0;
+    border-bottom: 1px dashed var(--hr);
+    background: #000;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -152,61 +177,49 @@ form {
     }
 }
 
+$search-icon-size: 1.7rem;
+$search-icon-gap: 0.5rem;
+
 /* The search bar in the navbar */
 form.search-form {
     padding: 0;
     display: initial;
     align-items: initial;
 
-    input {
-        color: var(--text);
-        appearance: searchfield;
-        background-color: transparent;
-        border: 0.2rem solid var(--search-bar);
-        border-radius: 0.2rem;
-        padding: 0.1rem;
+    .search-bar-div {
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        flex: 1;
+        max-height: 2rem;
+        gap: $search-icon-gap;
 
-        &:focus {
-            border: 0.2rem solid var(--search-bar-active);
+        #search-icon {
+            height: $search-icon-size;
+        }
+
+        input {
+            color: var(--text);
+            appearance: searchfield;
+            background-color: var(--search-bar-background);
+            border: 0.2rem solid var(--search-bar);
+            border-radius: 0.2rem;
+            padding: 0.1rem;
+
+            transition: all 0.2s ease;
+
+            &:focus, &:active {
+                border: 0.2rem solid var(--search-bar-active);
+            }
         }
     }
-
-}
-
-a {
-    color: var(--link);
-
-    &:hover {
-        color: var(--link-hover);
-    }
-
-    &:visited {
-        color: var(--link-visited);
-    }
-
-    &:active {
-        color: var(--link-active);
-    }
-}
-
-hr {
-    border: 0;
-    border-bottom: 1px dashed var(--hr);
-    background: #000;
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-}
-
-input.search-bar {
-    width: 100%;
 }
 
 .results-box {
     z-index: 2;
     display: block;
     position: absolute;
-    width: 94%;
+    width: 17.1rem;
     line-height: 1em;
     margin: 0;
     background-color: var(--search-results);
@@ -214,6 +227,7 @@ input.search-bar {
     padding: 3%;
     box-shadow: var(--search-results-shadow) 0px 0px 15px, var(--search-results-shadow) 0px 0px 3px 1px;
     top: 0.5rem;
+    left: $search-icon-gap + $search-icon-size;
 }
 
 .results-box:blank {
@@ -239,6 +253,11 @@ input.search-bar {
     a {
         text-decoration: none;
     }
+}
+
+::placeholder {
+    color: var(--placeholder);
+    background-color: var(--placeholder-background);
 }
 
 [title] {

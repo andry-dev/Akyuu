@@ -30,4 +30,8 @@
         --details: var(--form);
         --summary: var(--form);
     }
+
+    #search-icon {
+        filter: invert(1);
+    }
 }

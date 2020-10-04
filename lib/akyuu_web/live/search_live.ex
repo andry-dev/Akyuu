@@ -14,7 +14,10 @@ defmodule AkyuuWeb.SearchLive do
   def render(assigns) do
     ~L"""
     <form class="search-form" phx-change="search">
-      <input type="text" name="q" value="<%= @query %>" placeholder="Global search..." autocomplete="off" class="search-bar" />
+      <div class="search-bar-div">
+        <img id="search-icon" src="/icons/search.svg"/>
+        <input type="text" name="q" value="<%= @query %>" autocomplete="off" class="search-bar" />
+      </div>
 
       <%= if @results != [] do %>
       <div style="position: relative">
