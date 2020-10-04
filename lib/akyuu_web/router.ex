@@ -46,6 +46,7 @@ defmodule AkyuuWeb.Router do
 
     get "/", PageController, :index
     get "/user/:username", UserController, :show
+    get "/album/:id", AlbumController, :show
   end
 
   # Other scopes may use custom stacks.
