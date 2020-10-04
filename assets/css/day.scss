@@ -6,13 +6,19 @@
         --text: #322;
         --text-code-hl: rgb(150, 0, 0);
 
-        --header-background: #FAFAFA;
-        --header-border: #FEF;
-
         --link: rgb(0, 0, 50);
         --link-visited: rgb(0, 75, 50);
         --link-active: #EEE;
         --link-hover: #000;
+
+        --header-background: #FAFAFA;
+        --header-border: #FEF;
+
+        --header-link: var(--link);
+        --header-link-visited: var(--link-visited);
+        --header-link-active: var(--link-active);
+        --header-link-hover: var(--link-hover);
+
 
         --search-bar: #DDE;
         --search-bar-active: #AAF;

@@ -63,6 +63,31 @@ select {
     margin: -1rem 0 2rem;
 }
 
+a {
+    color: var(--link);
+
+    &:hover {
+        color: var(--link-hover);
+    }
+
+    &:visited {
+        color: var(--link-visited);
+    }
+
+    &:active {
+        color: var(--link-active);
+    }
+}
+
+hr {
+    border: 0;
+    border-bottom: 1px dashed var(--hr);
+    background: #000;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}
+
 header {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
@@ -103,32 +128,23 @@ header nav ul {
 
 header nav a {
     display: block;
-}
 
-a {
-    color: var(--link);
+    color: var(--header-link);
 
     &:hover {
-        color: var(--link-hover);
+        color: var(--header-link-hover);
     }
 
     &:visited {
-        color: var(--link-visited);
+        color: var(--header-link-visited);
     }
 
     &:active {
-        color: var(--link-active);
+        color: var(--header-link-active);
     }
+
 }
 
-hr {
-    border: 0;
-    border-bottom: 1px dashed var(--hr);
-    background: #000;
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-}
 
 form {
     display: flex;
