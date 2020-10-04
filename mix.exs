@@ -18,7 +18,12 @@ defmodule Akyuu.MixProject do
       docs: [
         main: "Akyuu",
         logo: "assets/static/images/akyuu_vinyl.svg",
-        extras: ["README.md"]
+        extras: ["README.md"],
+        groups_for_modules: [
+          "Doujin music": [Akyuu.Music, ~r"^Akyuu.Music..*"],
+          Accounts: [Akyuu.Accounts, ~r"^Akyuu.Accounts..*"],
+          Web: [~r"^AkyuuWeb.*"]
+        ]
       ]
     ]
   end
@@ -43,6 +48,8 @@ defmodule Akyuu.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.22.6", only: :dev, runtime: false},
+      {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
       {:phoenix, "~> 1.5.4"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},

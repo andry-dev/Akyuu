@@ -1,5 +1,10 @@
 defmodule Akyuu.Music.Genre do
+  @moduledoc """
+  Describes a genre attached to an album.
+  """
+
   use Ecto.Schema
+
   import Ecto.Changeset
 
   @type t :: %__MODULE__{

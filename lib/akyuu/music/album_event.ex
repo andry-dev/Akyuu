@@ -1,7 +1,22 @@
 defmodule Akyuu.Music.AlbumEvent do
+  @moduledoc """
+  Association between an album and an event edition.
+
+  When an album is released at an edition, it has a price tag attached to it.
+  """
+
   use Ecto.Schema
+
   import Ecto.Changeset
 
+  @typedoc """
+  ## Attributes
+  - `:price_jpy`: A non-negative integer describing how much the album costs
+    at that event in Japanese Yens.
+  """
+  @type t :: %__MODULE__{
+          price_jpy: non_neg_integer()
+        }
   @primary_key false
   schema "albums_events" do
     field :price_jpy, :integer, default: 1000

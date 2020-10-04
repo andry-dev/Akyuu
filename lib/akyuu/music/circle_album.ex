@@ -1,5 +1,8 @@
 defmodule Akyuu.Music.CircleAlbum do
+  @moduledoc false
+
   use Ecto.Schema
+
   import Ecto.Changeset
 
   @primary_key false

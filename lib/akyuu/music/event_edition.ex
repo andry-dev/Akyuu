@@ -1,4 +1,10 @@
 defmodule Akyuu.Music.EventEdition do
+  @moduledoc """
+  An event edition is an independent edition (or run) of an event that happened
+  during a specific date.
+
+  Albums are released in an edition.
+  """
   use Ecto.Schema
 
   import Ecto.Changeset

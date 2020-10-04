@@ -1,5 +1,8 @@
 defmodule Akyuu.Music.AlbumTrack do
+  @moduledoc false
+
   use Ecto.Schema
+
   import Ecto.Changeset
 
   @primary_key false

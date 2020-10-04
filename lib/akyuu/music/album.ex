@@ -1,18 +1,18 @@
 defmodule Akyuu.Music.Album do
-  use Ecto.Schema
-
-  import Ecto.Changeset
-  import Ecto.Query
-
-  alias Akyuu.Music.{Album, Track, AlbumTrack}
-  alias Akyuu.Repo
-
   @moduledoc """
   An album is a collection of tracks released by a circle at an event.
   The same album can be released more than once in any edition of any event.
 
   The wishlist of an user is composed of these albums.
   """
+
+  use Ecto.Schema
+
+  import Ecto.Changeset
+  import Ecto.Query
+
+  alias Akyuu.Music.{Album, AlbumTrack, Track}
+  alias Akyuu.Repo
 
   @typedoc """
   Type that represents an album.

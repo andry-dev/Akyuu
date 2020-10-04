@@ -1,4 +1,10 @@
 defmodule Akyuu.Accounts.User do
+  @moduledoc """
+  This module models an user in the app.
+  An user can add albums to its wishlist and, optionally, add or remove albums
+  from the database.
+  """
+
   use Ecto.Schema
 
   use Pow.Ecto.Schema,

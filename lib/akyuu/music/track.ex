@@ -1,5 +1,13 @@
 defmodule Akyuu.Music.Track do
+  @moduledoc """
+  A track present in one or more album, created by one or more members of one
+  or more circles.
+
+  See `Akyuu.Music.Circle`.
+  """
+
   use Ecto.Schema
+
   import Ecto.Changeset
   import Ecto.Query
 

@@ -1,11 +1,15 @@
 defmodule Akyuu.Accounts.UserWishlist do
+  @moduledoc """
+  A wishlist is a set of albums that a user wants to buy.
+  """
   use Ecto.Schema
+
   import Ecto.Changeset
 
   @primary_key false
-  schema "users_wishlist" do
-    belongs_to :user, Akyuu.User, primary_key: true
-    belongs_to :album, Akyuu.Album, primary_key: true
+  schema "users_wishlists" do
+    belongs_to :user, Akyuu.Accounts.User, primary_key: true
+    belongs_to :album, Akyuu.Music.Album, primary_key: true
 
     timestamps()
   end

@@ -1,4 +1,8 @@
 defmodule Akyuu.Accounts do
+  @moduledoc """
+  Module implementing CRUD operations for the users and their roles and
+  wishlist in the database.
+  """
   import Ecto.Query, warn: false
   alias Akyuu.Repo
   alias Akyuu.Accounts.{User, UserWishlist}

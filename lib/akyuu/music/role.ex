@@ -1,4 +1,15 @@
 defmodule Akyuu.Music.Role do
+  @moduledoc """
+  A module that defines a role for a member.
+
+  When a member of a circle creates a track, it usually has a role in it, for
+  example by singing ("vocals"), composing it ("arrangement"), writing lyrics,
+  etc...
+  The same logic applies to the generic role of a member of a circle.
+
+  In both of these cases, a member may have more than one role.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 

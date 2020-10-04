@@ -1,11 +1,4 @@
 defmodule Akyuu.Music.Event do
-  use Ecto.Schema
-  import Ecto.Changeset
-  import Ecto.Query
-
-  alias Akyuu.Music.{Event, Album, AlbumEvent, EventEdition}
-  alias Akyuu.Repo
-
   @moduledoc """
   An event is any convention where doujin albums are released. It has one or
   more editions, each of which starts at a specific date and lasts for one or
@@ -16,6 +9,13 @@ defmodule Akyuu.Music.Event do
   August) and the other in winter (generally at the end of December).
   """
 
+  use Ecto.Schema
+
+  import Ecto.Changeset
+  import Ecto.Query
+
+  alias Akyuu.Music.EventEdition
+  alias Akyuu.Repo
   @type t :: %__MODULE__{
           name: String.t(),
           romaji_name: String.t(),

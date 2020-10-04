@@ -1,4 +1,9 @@
 defmodule AkyuuWeb.SearchLive do
+  @moduledoc """
+  LiveView for the global search at the top of the page.
+
+  This module searches everything in the database and displays it 
+  """
   use AkyuuWeb, :live_view
 
   alias Akyuu.Accounts

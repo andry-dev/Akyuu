@@ -1,5 +1,8 @@
 defmodule Akyuu.Music.TrackMember do
+  @moduledoc false
+
   use Ecto.Schema
+
   import Ecto.Changeset
 
   schema "tracks_members" do
