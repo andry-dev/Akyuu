@@ -17,6 +17,7 @@ defmodule Akyuu.Music.Track do
           english_title: String.t(),
           cd_number: integer(),
           track_number: integer(),
+          length: integer(),
           hidden?: boolean(),
           albums: [Akyuu.Music.Album.t()],
           members: [Akyuu.Music.Member.t()]
@@ -28,10 +29,13 @@ defmodule Akyuu.Music.Track do
     field :title, :string
     field :romaji_title, :string
     field :english_title, :string
+    field :length, :integer
     field :hidden?, :boolean, source: :is_hidden, default: false
 
     many_to_many :albums, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumTrack
-    many_to_many :members, Akyuu.Music.Member, join_through: Akyuu.Music.TrackMember
+
+    has_many :performed_by_members, Akyuu.Music.TrackMember
+    has_many :members, through: [:performed_by_members, :member]
 
     timestamps()
   end
@@ -45,9 +49,12 @@ defmodule Akyuu.Music.Track do
       :title,
       :romaji_title,
       :english_title,
+      :length,
       :hidden?
     ])
-    |> validate_required([:cd_number, :track_number, :title])
+    |> validate_required([:cd_number, :track_number, :title, :length])
+    |> validate_number(:cd_number, greater_than: 0)
+    |> validate_number(:track_number, greater_than: 0)
   end
 
   def search(schema, name) do

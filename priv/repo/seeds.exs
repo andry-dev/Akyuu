@@ -32,7 +32,4 @@ Repo.insert!(%Music.Role{
 Code.require_file("seeds/members.exs", __DIR__)
 Code.require_file("seeds/events.exs", __DIR__)
 
-# /凋叶棕/彁.exs", __DIR)
 Code.require_file("seeds/disco.exs", __DIR__)
-
-# Diao ye Zong

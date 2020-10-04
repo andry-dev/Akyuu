@@ -1,11 +1,4 @@
 defmodule Akyuu.Music.Circle do
-  use Ecto.Schema
-  import Ecto.Changeset
-  import Ecto.Query
-
-  alias Akyuu.Music.{Album, Member, CircleAlbum, CircleMember}
-  alias Akyuu.Repo
-
   @moduledoc """
   A circle is a group of people ("members" of the circle) that release one or
   more albums.
@@ -24,8 +17,15 @@ defmodule Akyuu.Music.Circle do
 
   You can think of a circle as a loosely-coupled group of people that
   create _and publish_ albums.
-
   """
+
+  use Ecto.Schema
+
+  import Ecto.Changeset
+  import Ecto.Query
+
+  alias Akyuu.Music.{Album, CircleAlbum, CircleMember, Member}
+  alias Akyuu.Repo
 
   @typedoc """
   Type that represents a circle.
@@ -52,7 +52,8 @@ defmodule Akyuu.Music.Circle do
     field :romaji_name, :string
     field :english_name, :string
 
-    many_to_many :members, Akyuu.Music.Member, join_through: Akyuu.Music.CircleMember
+    has_many :participating_members, Akyuu.Music.CircleMember
+    has_many :members, through: [:participating_members, :member]
 
     timestamps()
   end
@@ -118,7 +119,7 @@ defmodule Akyuu.Music.Circle do
       iex> add_member(diao_ye_zong, merami, roles: ["vocals"])
       %Akyuu.Music.Circle{ ... }
   """
-  @spec add_member(circle :: t(), member :: Member.t(), opts :: Keyword.t()) :: t()
+  @spec add_member(circle :: t(), member :: Member.t(), opts :: [roles: [String.t()]]) :: t()
   def add_member(circle, member, opts) do
     found_roles =
       Repo.all(
@@ -127,15 +128,10 @@ defmodule Akyuu.Music.Circle do
       )
 
     changeset_attrs =
-      Map.from_struct(
-        Kernel.struct(
-          %CircleMember{
-            circle_id: circle.id,
-            member_id: member.id
-          },
-          opts
-        )
-      )
+      opts
+      |> Enum.into(%{})
+      |> Map.put(:circle_id, circle.id)
+      |> Map.put(:member_id, member.id)
 
     {:ok, membership} =
       %CircleMember{}

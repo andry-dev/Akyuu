@@ -25,8 +25,11 @@ defmodule Akyuu.Music.Member do
     field :romaji_name, :string
     field :english_name, :string
 
-    many_to_many :circles, Akyuu.Music.Circle, join_through: Akyuu.Music.CircleMember
-    many_to_many :tracks, Akyuu.Music.Track, join_through: Akyuu.Music.TrackMember
+    has_many :circle_participations, Akyuu.Music.CircleMember
+    has_many :circles, through: [:circle_participations, :circle]
+
+    has_many :track_performances, Akyuu.Music.TrackMember
+    has_many :tracks, through: [:track_performances, :track]
 
     timestamps()
   end
@@ -61,7 +64,7 @@ defmodule Akyuu.Music.Member do
     - roles: A list of strings that specify which role the member has in the
       creation of the track.
   """
-  @spec add_performance(member :: t(), track :: Track.t(), opts :: Keyword.t()) :: t()
+  @spec add_performance(member :: t(), track :: Track.t(), opts :: [roles: [String.t()]]) :: t()
   def add_performance(member, track, opts \\ []) do
     found_roles =
       from r in Role,
@@ -70,15 +73,10 @@ defmodule Akyuu.Music.Member do
     found_roles = Repo.all(found_roles)
 
     changeset_attrs =
-      Map.from_struct(
-        Kernel.struct(
-          %TrackMember{
-            track_id: track.id,
-            member_id: member.id
-          },
-          opts
-        )
-      )
+      opts
+      |> Enum.into(%{})
+      |> Map.put(:track_id, track.id)
+      |> Map.put(:member_id, member.id)
 
     {:ok, performance} =
       %TrackMember{}

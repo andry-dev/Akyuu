@@ -224,4 +224,12 @@ defmodule Akyuu.Music do
     |> Track.changeset(attrs)
     |> Repo.insert()
   end
+
+  def to_seconds(opts \\ [hour: 0, min: 0, sec: 0]) do
+    hour = Keyword.get(opts, :hour, 0)
+    min = Keyword.get(opts, :min, 0)
+    sec = Keyword.get(opts, :sec, 0)
+
+    hour * 3600 + min * 60 + sec
+  end
 end

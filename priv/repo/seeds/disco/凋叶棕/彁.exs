@@ -20,6 +20,7 @@ kushi = Repo.get_by!(Music.Member, name: "Φ串Φ")
     cd_number: 1,
     track_number: 1,
     title: "ALL EVIL MISCHIEF",
+    length: Music.to_seconds(min: 4, sec: 30),
     hidden?: false
   })
 
@@ -31,6 +32,7 @@ Music.Member.add_performance(rd_sounds, all_evil_mischief, roles: ["arrangement"
     track_number: 2,
     title: "ホーカス・ポーカス",
     romaji_title: "hocus pocus",
+    length: Music.to_seconds(min: 5, sec: 18),
     hidden?: false
   })
 
@@ -42,6 +44,7 @@ Music.Member.add_performance(merami, hocus_pocus, roles: ["vocals"])
     cd_number: 1,
     track_number: 3,
     title: "Marks of Sin",
+    length: Music.to_seconds(min: 5, sec: 31),
     hidden?: false
   })
 
@@ -53,6 +56,7 @@ Music.Member.add_performance(miko, marks_of_sin, roles: ["vocals"])
     cd_number: 1,
     track_number: 4,
     title: "trill_Moonshine",
+    length: Music.to_seconds(min: 3, sec: 44),
     hidden?: false
   })
 
@@ -64,6 +68,7 @@ Music.Member.add_performance(rd_sounds, trill_moonshine, roles: ["arrangement"])
     track_number: 5,
     title: "幻想少女物語",
     romaji_title: "gensou shoujo monogatari",
+    length: Music.to_seconds(min: 5, sec: 48),
     hidden?: false
   })
 
@@ -75,6 +80,7 @@ Music.Member.add_performance(merami, shoujo_monogatari, roles: ["vocals"])
     cd_number: 1,
     track_number: 6,
     title: "Dolls into Pitiful Pretenders",
+    length: Music.to_seconds(min: 6, sec: 39),
     hidden?: false
   })
 
@@ -86,6 +92,7 @@ Music.Member.add_performance(merami, dipp, roles: ["vocals"])
     cd_number: 1,
     track_number: 7,
     title: "little_Metamorphoses",
+    length: Music.to_seconds(min: 4, sec: 41),
     hidden?: false
   })
 
@@ -97,6 +104,7 @@ Music.Member.add_performance(rd_sounds, metamorph, roles: ["arrangement"])
     track_number: 8,
     title: "幻想星神信仰",
     romaji_title: "gensou hoshigami shinkou",
+    length: Music.to_seconds(min: 5, sec: 44),
     hidden?: false
   })
 
@@ -109,6 +117,7 @@ Music.Member.add_performance(kushi, gensou_hoshigami, roles: ["vocals"])
     track_number: 9,
     title: "懐かしき道",
     romaji_title: "natsukashiki michi",
+    length: Music.to_seconds(min: 4, sec: 11),
     hidden?: false
   })
 
@@ -120,6 +129,7 @@ Music.Member.add_performance(rd_sounds, nostalgic_road, roles: ["arrangement"])
     track_number: 10,
     title: "くすぶるなにか",
     romaji_title: "kusuburu nanika",
+    length: Music.to_seconds(min: 7, sec: 18),
     hidden?: false
   })
 
@@ -131,6 +141,7 @@ Music.Member.add_performance(nayuta, kusuburunanika, roles: ["vocals"])
     cd_number: 1,
     track_number: 11,
     title: "／彁",
+    length: Music.to_seconds(min: 7, sec: 22),
     hidden?: false
   })
 

@@ -9,6 +9,7 @@ defmodule Akyuu.Repo.Migrations.CreateTracks do
       add :title, :text
       add :romaji_title, :text
       add :english_title, :text
+      add :length, :integer
       add :is_hidden, :boolean, default: false
 
       timestamps()
