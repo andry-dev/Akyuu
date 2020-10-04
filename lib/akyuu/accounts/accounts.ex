@@ -19,6 +19,12 @@ defmodule Akyuu.Accounts do
     |> Repo.get(id)
   end
 
+  @spec get_user_by_name(username :: String.t()) :: Repo
+  def get_user_by_name(username) do
+    User
+    |> Repo.get_by(username: username)
+  end
+
   @spec list_users() :: nil | [Ecto.Schema.t()] | Ecto.Schema.t()
   def list_users do
     User

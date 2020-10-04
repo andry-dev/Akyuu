@@ -37,7 +37,7 @@
       <%= checkbox f, :public?  %>
     <% end %>
     <p>
-    A public profile can be looked up by visiting <code>"/users/&lt;ID&gt;"</code>.<br/>
+    A public profile can be looked up by visiting <code>"/users/&lt;username&gt;"</code>.<br/>
     Everyone (including people not logged in) will be able to see your wishlist. Moreover, a public profile can be looked up in the search bar ("indexed", see option below).<br/>
     A private profile can't be accessed publicly and can't be looked up in the search bar.
     </p>

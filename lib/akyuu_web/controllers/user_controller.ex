@@ -6,7 +6,7 @@ defmodule AkyuuWeb.UserController do
 
   plug :check_auth
 
-  # Takes an /users/:id
+  # Takes an /users/:username
   def show(conn, _params) do
     render(conn, "user.html")
   end
@@ -35,18 +35,15 @@ defmodule AkyuuWeb.UserController do
   # If the profile is private, it should be accessible only to its user.
   defp check_auth(conn, _opts) do
     user = conn.assigns.current_user
-    id = conn.params |> Map.get("id") |> String.to_integer()
+    username = conn.params |> Map.get("username")
 
-    case Accounts.get_user(id) do
+    case Accounts.get_user_by_name(username) do
       found_user when not is_nil(found_user) ->
-        cond do
-          found_user.public? or
-              (!is_nil(user) and user.id == id) ->
-            conn
-            |> assign(:user, found_user)
-
-          true ->
-            invalid_auth(conn)
+        if found_user.public? or (!is_nil(user) and user.id == found_user.id) do
+          conn
+          |> assign(:user, found_user)
+        else
+          invalid_auth(conn)
         end
 
       _ ->

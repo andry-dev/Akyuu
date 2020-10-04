@@ -23,12 +23,12 @@ defmodule AkyuuWeb.Router do
   scope "/", Pow.Phoenix, as: "pow" do
     pipe_through :browser
 
-    get "/users/edit", RegistrationController, :edit
-    get "/users/new", RegistrationController, :new
-    post "/users", RegistrationController, :create
-    patch "/users", RegistrationController, :update
-    put "/users", RegistrationController, :update
-    delete "/users", RegistrationController, :delete
+    get "/settings", RegistrationController, :edit
+    get "/register", RegistrationController, :new
+    post "/user", RegistrationController, :create
+    patch "/user", RegistrationController, :update
+    put "/user", RegistrationController, :update
+    delete "/user", RegistrationController, :delete
 
     get "/session/new", SessionController, :new
     post "/session", SessionController, :create
@@ -45,7 +45,7 @@ defmodule AkyuuWeb.Router do
     pipe_through [:browser]
 
     get "/", PageController, :index
-    get "/users/:id", UserController, :show
+    get "/user/:username", UserController, :show
   end
 
   # Other scopes may use custom stacks.
