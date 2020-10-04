@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  akyuu:
+    build: .
+    volumes:
+      - ../..:/app
+    ports:
+      - "4000:4000"
+    environment:
+        - POSTGRES_URL=db
+    depends_on:
+      - db
+  db:
+    image: groonga/pgroonga:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: unless-stopped
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
