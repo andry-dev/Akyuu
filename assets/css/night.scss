@@ -6,8 +6,13 @@
         --text: #EEE;
         --text-code-hl: rgb(150, 0, 0);
 
-        --header-background: #705;
-        --header-border: #646;
+        --header-background: #91245B;
+        --header-border: #914169;
+        --header-link: rgb(205, 205, 255);
+        --header-link-visited: rgb(220, 220, 220);
+        --header-link-active: #EEE;
+        --header-link-hover: #FFF;
+
 
         --link: rgb(150, 150, 255);
         --link-visited: rgb(220, 220, 220);
@@ -22,8 +27,11 @@
 
         --hr: #AAA;
 
-        --form: #301;
-        --form-border: #905;
+        --form: #350e21;
+        --form-border: var(--header-background);
+
+        --details: var(--form);
+        --summary: var(--form);
 
         --search-icon-invert-factor: 0;
     }
