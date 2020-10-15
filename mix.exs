@@ -49,7 +49,7 @@ defmodule Akyuu.MixProject do
     [
       {:ex_doc, "~> 0.22.6", only: :dev, runtime: false},
       {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
+      # {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
       {:phoenix, "~> 1.5.4"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
@@ -57,7 +57,7 @@ defmodule Akyuu.MixProject do
       {:myxql, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.2"},
+      # {:phoenix_live_dashboard, "~> 0.2"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
@@ -65,11 +65,15 @@ defmodule Akyuu.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:argon2_elixir, "~> 1.3"},
       {:pow, "~> 1.0.21"},
-      {:pow_assent, "~> 0.4.8"}
+      {:pow_assent, "~> 0.4.8"},
       {:surface,
        git: "https://github.com/msaraiva/surface.git", tag: "v0.1.0-rc.0", override: true},
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.3"}
+    ]
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
   # For example, to install project dependencies and perform other setup tasks, run:
   #
   #     $ mix setup
