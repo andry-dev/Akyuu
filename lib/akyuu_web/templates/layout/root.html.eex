@@ -3,7 +3,12 @@
   <head>
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "Akyuu" %>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <%= render_existing(view_module(@conn), "css", assigns) %>
+    <%= if assigns[:live_view_module] do %>
+    <%= render_existing @live_view_module, "css", assigns %>
+    <% end %>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -38,6 +43,7 @@
           <% end %>
         </ul>
       </nav>
+
       <a href="/" class="logo">
         <img src="<%= Routes.static_path(@conn, "/images/akyuu_vinyl.svg") %>" alt="Phoenix Framework Logo"/>
       </a>
