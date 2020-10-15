@@ -66,10 +66,10 @@ defmodule Akyuu.MixProject do
       {:argon2_elixir, "~> 1.3"},
       {:pow, "~> 1.0.21"},
       {:pow_assent, "~> 0.4.8"}
-    ]
-  end
-
-  # Aliases are shortcuts or tasks specific to the current project.
+      {:surface,
+       git: "https://github.com/msaraiva/surface.git", tag: "v0.1.0-rc.0", override: true},
+      {:arc, "~> 0.11.0"},
+      {:arc_ecto, "~> 0.11.3"}
   # For example, to install project dependencies and perform other setup tasks, run:
   #
   #     $ mix setup

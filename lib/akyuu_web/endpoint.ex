@@ -25,7 +25,7 @@ defmodule AkyuuWeb.Endpoint do
     from: :akyuu,
     gzip: false,
     only:
-      ~w(css fonts images icons js favicon.ico apple-touch-icon.png favicon-32x32.png favicon-16x16.png site.webmanifest robots.txt)
+      ~w(css fonts uploads images icons js favicon.ico apple-touch-icon.png favicon-32x32.png favicon-16x16.png site.webmanifest robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -36,9 +36,9 @@ defmodule AkyuuWeb.Endpoint do
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :akyuu
   end
 
-  plug Phoenix.LiveDashboard.RequestLogger,
-    param_key: "request_logger",
-    cookie_key: "request_logger"
+  # plug Phoenix.LiveDashboard.RequestLogger,
+  #  param_key: "request_logger",
+  #  cookie_key: "request_logger"
 
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
