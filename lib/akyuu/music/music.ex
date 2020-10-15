@@ -167,6 +167,16 @@ defmodule Akyuu.Music do
   end
 
   @doc """
+  Creates a new CD.
+  """
+  @spec create_cd(attrs :: %{}) :: {:ok, CD.t()} | {:error, Ecto.Changeset.t()}
+  def create_cd(attrs \\ %{}) do
+    %CD{}
+    |> CD.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
   Creates a new circle.
   """
   @spec create_circle(attrs :: %{}) :: {:ok, Circle.t()} | {:error, Ecto.Changeset.t()}

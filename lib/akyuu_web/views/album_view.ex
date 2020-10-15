@@ -87,8 +87,9 @@ defmodule AkyuuWeb.AlbumView do
 
   def calculate_album_length(album) do
     total_seconds =
-      album.tracks
-      |> Enum.map(fn x -> x.length end)
+      album.cds
+      |> Enum.flat_map(fn cd -> cd.tracks end)
+      |> Enum.map(fn track -> track.length end)
       |> Enum.reduce(0, fn x, acc -> x + acc end)
 
     format_time(Time.add(~T[00:00:00], total_seconds))

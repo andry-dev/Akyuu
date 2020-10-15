@@ -1,6 +1,6 @@
 defmodule Akyuu.Music.Album do
   @moduledoc """
-  An album is a collection of tracks released by a circle at an event.
+  An album is a collection of CDs released by a circle at an event.
   The same album can be released more than once in any edition of any event.
 
   The wishlist of an user is composed of these albums.
@@ -11,7 +11,7 @@ defmodule Akyuu.Music.Album do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias Akyuu.Music.{Album, AlbumTrack, Track}
+  alias Akyuu.Music.{Album, AlbumCD, CD}
   alias Akyuu.Repo
 
   @typedoc """
@@ -27,8 +27,7 @@ defmodule Akyuu.Music.Album do
   * `:romaji_title`: The translitterated title of the album in romaji.
      If the original title _is not_ in Japanese then this attribute should be nil.
   * `:english_title`: An english translation of the original title, it it exists.
-  * `:tracks`: The tracks that make up the album.
-  * `:genres`: The genres contained in the album.
+  * `:cds`: The CDs that make up the album.
   * `:events`: The events where the album was released.
   * `:circles`: The circles behind the album.
   * `:wanted_by_users`: Which users wants the album.
@@ -40,8 +39,7 @@ defmodule Akyuu.Music.Album do
           title: String.t(),
           romaji_title: String.t(),
           english_title: String.t(),
-          tracks: [Akyuu.Music.Track.t()],
-          genres: [Akyuu.Music.Genre.t()],
+          cds: [Akyuu.Music.CD.t()],
           events: [Akyuu.Music.EventEdition.t()],
           circles: [Akyuu.Music.Circle.t()],
           wanted_by_users: [Akyuu.Accounts.User.t()],
@@ -57,13 +55,16 @@ defmodule Akyuu.Music.Album do
     field :xfd_url, :string
     field :cover_art_path, :string
 
-    many_to_many :tracks, Akyuu.Music.Track, join_through: Akyuu.Music.AlbumTrack
-    many_to_many :genres, Akyuu.Music.Genre, join_through: Akyuu.Music.AlbumGenre
+    many_to_many :cds, Akyuu.Music.CD,
+      join_through: Akyuu.Music.AlbumCD,
+      on_replace: :delete
 
     has_many :event_participations, Akyuu.Music.AlbumEvent
     has_many :events, through: [:event_participations, :event]
 
-    many_to_many :circles, Akyuu.Music.Circle, join_through: Akyuu.Music.CircleAlbum
+    many_to_many :circles, Akyuu.Music.Circle,
+      join_through: Akyuu.Music.CircleAlbum,
+      on_replace: :delete
 
     many_to_many :wanted_by_users, Akyuu.Accounts.User,
       join_through: Akyuu.Accounts.UserWishlist,
@@ -75,7 +76,7 @@ defmodule Akyuu.Music.Album do
   @required_fields ~w(label title romaji_title english_title xfd_url cover_art_path)a
 
   @doc false
-  def changeset(album, attrs) do
+  def changeset(album, attrs \\ %{}) do
     album
     |> cast(attrs, @required_fields)
     |> validate_required([:label, :title])
@@ -94,16 +95,16 @@ defmodule Akyuu.Music.Album do
   end
 
   @doc """
-  Adds a track to an album.
+  Adds a CD to an album.
 
   Returns either the association between the two or an error with the changeset.
   """
-  @spec add_track(album :: t(), track :: Track.t()) ::
+  @spec add_cd(album :: t(), cd :: CD.t()) ::
           Ecto.Schema.t() | {:error, Ecto.Changeset.t()}
-  def add_track(%Album{} = album, %Track{} = track) do
+  def add_cd(%Album{} = album, %CD{} = cd) do
     res =
-      %AlbumTrack{}
-      |> AlbumTrack.changeset(%{album_id: album.id, track_id: track.id})
+      %AlbumCD{}
+      |> AlbumCD.changeset(%{album_id: album.id, cd_id: cd.id})
       |> Repo.insert()
 
     case res do

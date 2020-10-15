@@ -95,7 +95,7 @@ defmodule Akyuu.Music.EventEdition do
       opts
       |> Enum.into(%{})
       |> Map.put(:album_id, album.id)
-      |> Map.put(:event_id, edition.event_id)
+      |> Map.put(:edition_id, edition.event_id)
 
     %AlbumEvent{}
     |> AlbumEvent.changeset(changeset_attrs)

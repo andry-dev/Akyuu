@@ -15,7 +15,7 @@ defmodule Akyuu.Music.Genre do
   schema "genres" do
     field :name, :string
 
-    many_to_many :albums, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumGenre
+    many_to_many :albums, Akyuu.Music.CD, join_through: Akyuu.Music.GenreCD
 
     timestamps()
   end
