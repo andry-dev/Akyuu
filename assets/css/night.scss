@@ -27,12 +27,28 @@
 
         --hr: #AAA;
 
-        --form: #350e21;
+        --form: #350E21;
         --form-border: var(--header-background);
 
         --details: var(--form);
-        --summary: var(--form);
+        --details-border: var(--form-border);
+        --summary: var(--details);
 
         --search-icon-invert-factor: 0;
+
+        --editable: transparent;
+        --editable-border: var(--form-border);
+        --editable-hover: var(--editable);
+
+        --disc: var(--details);
+        --track: #250011;
+
+        --modal: var(--background);
+        --modal-transparency-layer: rgb(10, 10, 10, 0.80);
+        --modal-header: var(--header-background);
+        --modal-header-border: var(--header-border);
+
+        --modal-form: var(--form);
+        --modal-form-entry-border: #FFCCFA;
     }
 }

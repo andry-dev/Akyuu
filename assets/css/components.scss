@@ -1,0 +1,139 @@
+/* SASS file for components.
+*/
+
+/* AkyuuWeb.Components.Modal */
+
+.modal {
+    overflow: hidden;
+
+    .modal-bg {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        background-color: var(--modal-transparency-layer);
+        z-index: 1;
+    }
+}
+
+.modal-content {
+    position: fixed;
+    margin: 4rem auto;
+    z-index: 1;
+    width: 50vw;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    overflow: hidden;
+
+
+    background-color: var(--modal);
+    backface-visibility: hidden;
+
+    .modal-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 1rem;
+
+        padding: 1rem;
+
+        background-color: var(--modal-header);
+        border-bottom: 3px solid var(--modal-header-border);
+    }
+
+    .modal-default {
+        padding: 0 0.5rem;
+        height: 90%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
+
+// For forms inside a Modal
+.modal-form {
+    background-color: transparent;
+    padding: 0 1rem;
+
+    .form-entry {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        background-color: transparent;
+        border: 0px;
+        gap: 0.5rem;
+
+        input {
+            border: 2px solid var(--modal-form-entry-border);
+            border-radius: 0.2rem;
+            padding: 0.2rem;
+        }
+
+        input[type=number] {
+            width: 5rem;
+        }
+    }
+
+    .form-entry-inline {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        width: 50%;
+    }
+}
+
+/* AkyuuWeb.Components.EditableField */
+
+.editable-div {
+    display: inline;
+}
+
+.editable-default {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.5rem;
+
+    button.edit, button.save, button.reset {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.editable {
+    display: inline-block;
+
+    .editable-field {
+        resize: horizontal;
+        min-width: 10rem;
+        border-radius: 0.2rem;
+        border: 0.2rem solid var(--editable-border);
+        padding: 0.1rem;
+        color: var(--text);
+        background-color: var(--editable);
+
+        &:hover, &:active {
+            background-color: var(--editable-hover);
+        }
+    }
+
+    input[type=number].editable-field {
+        min-width: 2rem;
+    }
+}

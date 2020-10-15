@@ -40,6 +40,8 @@ defmodule AkyuuWeb do
 
       import Phoenix.LiveView.Helpers
 
+      import Surface
+
       # Include shared imports and aliases for views
       unquote(view_helpers())
     end

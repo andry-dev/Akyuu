@@ -1,8 +1,11 @@
 defmodule Akyuu.Music do
   alias Akyuu.Repo
 
+  import Ecto.Query
+
   alias Akyuu.Music.{
           Album,
+          CD,
           Circle,
           Track,
           Member,
@@ -21,6 +24,41 @@ defmodule Akyuu.Music do
   For example, CRUD operations for albums, circles, events, tracks, members,
   etc...
   """
+
+  defp generate_preloaded_album do
+    from album in Album,
+      left_join: circles in assoc(album, :circles),
+      left_join: event_participations in assoc(album, :event_participations),
+      left_join: edition in assoc(event_participations, :edition),
+      left_join: event in assoc(edition, :event),
+      left_join: cds in assoc(album, :cds),
+      left_join: genres in assoc(cds, :genres),
+      left_join: tracks in assoc(cds, :tracks),
+      left_join: performed_by_members in assoc(tracks, :performed_by_members),
+      left_join: roles in assoc(performed_by_members, :roles),
+      left_join: member in assoc(performed_by_members, :member),
+      preload: [
+        circles: circles,
+        event_participations: {
+          event_participations,
+          edition: {
+            edition,
+            event: event
+          }
+        },
+        cds: {
+          cds,
+          genres: genres,
+          tracks: {
+            tracks,
+            performed_by_members: {
+              performed_by_members,
+              roles: roles, member: member
+            }
+          }
+        }
+      ]
+  end
 
   @doc """
   Returns all the albums from the database without preloading anything.
@@ -59,15 +97,14 @@ defmodule Akyuu.Music do
   end
 
   @doc """
-  Returns all the albums from the database with all the attributes preloaded.
-  This function is extremely expensive since it queries all the database, please
-  use it sparingly.
+  Returns all the albums from the database and preloads all the useful
+  attributes in one query.
+  This function is expensive since it queries all the database, please use it
+  sparingly.
   """
-  @spec list_albums_full() :: Album.t() | [Album.t()] | nil
-  def list_albums_full do
-    Album
-    |> Repo.all()
-    |> Repo.preload(circle: [:members], event: [], track: [member: :circle])
+  @spec list_albums(:preload_all) :: Album.t() | [Album.t()] | nil
+  def list_albums(:preload_all) do
+    Repo.all(generate_preloaded_album())
   end
 
   @doc """
@@ -115,9 +152,84 @@ defmodule Akyuu.Music do
   Finds an album by its id.
   """
   @spec find_album_by_id(id :: non_neg_integer(), preload_list :: [atom()]) :: Album.t() | nil
-  def find_album_by_id(id, preload_list \\ []) do
+  def find_album_by_id(id, preload_list \\ [])
+
+  @doc """
+  Find an album by its id and preloads all useful fields in one query.
+  """
+  @spec find_album_by_id(id :: non_neg_integer(), :preload_all) :: Album.t() | nil
+  def find_album_by_id(id, :preload_all) do
+    query =
+      generate_preloaded_album()
+      |> where([album], album.id == ^id)
+
+    Repo.one(query)
+  end
+
+  def find_album_by_id(id, preload_list) do
     Repo.get(Album, id)
     |> Repo.preload(preload_list)
+  end
+
+  def update_album(object, attrs, preload_list \\ [])
+
+  @doc """
+  Given the id of an album, updates its fields with a new changeset.
+  """
+  @spec update_album(id :: non_neg_integer(), attrs :: %{}, preload_list :: [atom()]) ::
+          any()
+  def update_album(id, attrs, preload_list) when is_integer(id) do
+    with found_album when not is_nil(found_album) <- find_album_by_id(id) do
+      changeset =
+        found_album
+        |> Repo.preload(preload_list)
+        |> Album.changeset(attrs)
+        |> Ecto.Changeset.cast_assoc(:tracks, with: &Track.changeset/2)
+
+      if changeset.valid? do
+        Repo.update(changeset)
+      else
+        {:error, changeset}
+      end
+    else
+      _ -> {:error, :album_not_found}
+    end
+  end
+
+  @doc """
+  Given the id of an album, updates ALL its fields with a new changeset.
+  """
+  @spec update_album(id :: non_neg_integer(), attrs :: %{}, :preload_all) :: any()
+  def update_album(id, attrs, :preload_all) when is_integer(id) do
+    case find_album_by_id(id, :preload_all) do
+      nil ->
+        {:error, :album_not_found}
+
+      album ->
+        changeset =
+          album
+          |> Album.changeset(attrs)
+          |> Ecto.Changeset.cast_assoc(:tracks, with: &Track.changeset/2)
+
+        if changeset.valid? do
+          Repo.update(changeset)
+        else
+          {:error, changeset}
+        end
+    end
+  end
+
+  @doc """
+  Given the id of an album, updates its fields with a new changeset.
+  """
+  @spec update_album(album :: Album.t(), attrs :: %{}, preload_list :: [atom()]) ::
+          any()
+  def update_album(album = %Album{}, attrs, preload_list) do
+    album
+    |> Repo.preload(preload_list)
+    |> Album.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:tracks, with: &Track.changeset/2)
+    |> Repo.update()
   end
 
   @doc """
@@ -130,6 +242,15 @@ defmodule Akyuu.Music do
     Circle
     |> Circle.search(name)
     |> Repo.all()
+  end
+
+  @doc """
+  Finds an album by its id.
+  """
+  @spec find_circle_by_id(id :: non_neg_integer(), preload_list :: [atom()]) :: Circle.t() | nil
+  def find_circle_by_id(id, preload_list \\ []) do
+    Repo.get(Circle, id)
+    |> Repo.preload(preload_list)
   end
 
   @doc """

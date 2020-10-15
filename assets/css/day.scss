@@ -34,7 +34,24 @@
         --tooltip: #DEDEDE;
 
         --details: var(--form);
-        --summary: var(--form);
+        --details-border: var(--form-border);
+        --summary: var(--details);
+
+        --editable: var(--background);
+        --editable-hover: #FEFEFF;
+        --editable-border: #AAF;
+
+        --disc: var(--details);
+        --track: #DFDFE0;
+
+        --modal: var(--background);
+        --modal-transparency-layer: rgb(10, 10, 10, 0.80);
+        --modal-header: var(--header-background);
+        --modal-header-border: var(--header-border);
+
+        --modal-form: var(--form);
+        --modal-form-entry-border: var(--search-bar);
+
     }
 
     #search-icon {

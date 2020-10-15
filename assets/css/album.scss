@@ -1,0 +1,141 @@
+
+
+.album-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.album-title {
+    display: initial;
+    font-size: 2rem;
+}
+
+h1.album-romaji-title {
+    font-style: italic;
+}
+
+.album-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 2rem;
+}
+
+.album-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    flex: 1;
+}
+
+.tracks, .events {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.disc {
+    background-color: var(--disc);
+
+    border-radius: 2px;
+    padding: 0.5rem 0.5rem;
+}
+
+.disc-no {
+    font-weight: bold;
+}
+
+.track-title, .event-name {
+    font-weight: bold;
+}
+
+.event-romaji-name {
+    font-style: italic;
+}
+
+.event-price {
+    font-weight: bold;
+}
+
+.track-romaji-title {
+    font-style: italic;
+}
+
+.track-member-romaji {
+    font-style: italic;
+}
+
+.track-instrumental, .event-date {
+    float: right;
+}
+
+.circle-romaji-name {
+    font-style: italic;
+}
+
+.card {
+    background-color: var(--details);
+
+    border-bottom: 2px solid var(--details-border);
+    border-radius: 2px;
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+
+    margin: 0.5rem 0;
+
+    .card-header {
+        cursor: pointer;
+        height: 1.5rem;
+
+        background-color: var(--summary);
+    }
+
+    .card-header-end {
+        float: right;
+    }
+
+    .details-content {
+        display: flex;
+        flex-direction: column;
+        justify-items: flex-start;
+        gap: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.disc-card {
+    background-color: var(--disc);
+}
+
+.disc-card > .card-header {
+    background-color: var(--disc);
+}
+
+.track-card {
+    background-color: var(--track);
+}
+
+.track-card > .card-header {
+    background-color: var(--track);
+}
+
+@media (max-width: 60rem) {
+    .cover-art-holder {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .album-head, .album-details {
+        flex-direction: column;
+
+        .tracks, .events {
+            width: 100%;
+        }
+    }
+}

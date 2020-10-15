@@ -3,7 +3,23 @@ defmodule AkyuuWeb.AlbumView do
 
   import AkyuuWeb.View.Helpers
 
-  alias Akyuu.Music.EventEdition
+  alias Akyuu.Music.Album
+  alias Akyuu.Repo
+
+  def get_cover_art(album) do
+    tmp =
+      Album.CoverArt.url({"art.jpg", album})
+      |> Path.relative_to("/priv/static")
+
+    Path.join("/", tmp)
+  end
+
+  def instrumental?(track) do
+    track.performed_by_members
+    |> Enum.flat_map(fn x -> x.roles end)
+    |> Enum.map(fn x -> x.name end)
+    |> Enum.all?(fn name -> name != "vocals" end)
+  end
 
   def display_title(album) do
     content_tag :h1, class: "album-title" do
@@ -49,13 +65,6 @@ defmodule AkyuuWeb.AlbumView do
         ")"
       ]
     )
-  end
-
-  def instrumental?(track) do
-    track.performed_by_members
-    |> Enum.flat_map(fn x -> x.roles end)
-    |> Enum.map(fn x -> x.name end)
-    |> Enum.all?(fn name -> name != "vocals" end)
   end
 
   defp format_time(time) do

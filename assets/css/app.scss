@@ -1,6 +1,8 @@
 /* This file is for your main application css. */
 /*@import "./phoenix.css"; */
 
+@import "~@fortawesome/fontawesome-free/css/solid.css";
+
 @import "day.scss";
 @import "night.scss";
 
@@ -23,6 +25,9 @@ select {
     width: auto;
 }
 
+p:empty, span:empty {
+    display: none;
+}
 
 /* Alerts and form errors */
 .alert {
@@ -145,7 +150,6 @@ header nav a {
 
 }
 
-
 form {
     display: flex;
     flex-direction: column;
@@ -193,6 +197,7 @@ form {
     }
 }
 
+
 $search-icon-size: 1.7rem;
 $search-icon-gap: 0.5rem;
 
@@ -230,6 +235,7 @@ form.search-form {
         }
     }
 }
+
 
 .results-box {
     z-index: 2;
@@ -271,91 +277,93 @@ form.search-form {
     }
 }
 
-::placeholder {
-    color: var(--placeholder);
-    background-color: var(--placeholder-background);
+button.edit::before {
+    font-size: 1rem;
+    font-family: "Font Awesome 5 Free";
+    content: '\f044';
 }
 
-[title] {
-    border-bottom: 2px dotted;
+button.save::before {
+    align-items: center;
+    font-size: 1rem;
+    font-family: "Font Awesome 5 Free";
+    content: '\f0c7';
 }
 
-h1.album-romaji-title {
-    font-style: italic;
+button.reset::before {
+    font-size: 1rem;
+    font-family: "Font Awesome 5 Free";
+    content: '\f05e';
 }
 
+.image-upload {
+    cursor: pointer;
 
-.album-info {
+    img {
+        cursor: pointer;
+    }
+
+    & > input {
+        display: none;
+    }
+}
+
+.flex-image {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 1rem;
-    flex: 1;
+
+    justify-content: center;
+    align-items: flex-start;
+
+    .image-container {
+        flex: 1 0 0;
+
+        img {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    .image-content {
+        flex: 2;
+    }
 }
 
-.tracks, .events {
-    width: 100%;
-    display: flex;
+.inline-row {
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.inline-col {
+    display: inline-flex;
     flex-direction: column;
-    justify-content: flex-start;
+}
+
+.inline-no-spacing {
+    gap: 0;
+}
+
+.inline-little-spacing {
+    gap: 0.5rem;
+}
+
+.inline-medium-spacing {
     gap: 1rem;
-    width: 50%;
 }
 
-.track-title, .event-name {
-    font-weight: bold;
+.inline-big-spacing {
+    gap: 2rem;
 }
 
-.event-romaji-name {
-    font-style: italic;
-}
-
-.event-price {
-    font-weight: bold;
-}
-
-.track-romaji-title {
-    font-style: italic;
-}
-
-.track-member-romaji {
-    font-style: italic;
-}
-
-.track-instrumental, .event-date {
+.align-right {
     float: right;
 }
 
-.circle-romaji-name {
-    font-style: italic;
-}
+@import "components.scss";
 
-details {
-    background-color: var(--details);
-
-    border-bottom: 2px solid var(--form-border);
-    border-radius: 2px;
-
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
-
-    summary {
-        cursor: pointer;
-
-        background-color: var(--summary);
-    }
-
-    ul {
-
-        margin: 0;
-
-        li {
-            list-style: none;
-        }
-    }
-}
+@import "album.scss";
 
 @media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
     header section {
@@ -365,10 +373,23 @@ details {
     header nav ul {
         margin: 1rem;
     }
+
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 60rem) {
     form {
         width: 100%;
     }
+
+    .flex-image {
+        flex-direction: column;
+    }
+}
+
+[noscroll=true] {
+    overflow: hidden;
+}
+
+[x-cloak] {
+    display: none !important;
 }
