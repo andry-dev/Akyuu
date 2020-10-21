@@ -32,12 +32,14 @@ defmodule AkyuuWeb.SearchLive do
           <%= if @results[:albums] != nil do %>
             <p class="results-category">Albums</p>
             <%= for album <- @results[:albums] do %>
-              <div class="search-result">
-                <a href="/album/<%= album.id %>"><%= album.title %></a>
-                <%= if album.romaji_title do %>
-                  (<span class="album-romaji-title"><%= album.romaji_title %></span>)
-                <% end %>
-              </div>
+              <a class="search-result-link" href="/album/<%= album.id %>">
+                <div class="search-result">
+                  <%= album.title %>
+                  <%= if album.romaji_title do %>
+                    (<span class="album-romaji-title"><%= album.romaji_title %></span>)
+                  <% end %>
+                </div>
+              </a>
             <% end %>
           <% end %>
 
