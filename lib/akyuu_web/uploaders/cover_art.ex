@@ -1,10 +1,9 @@
 defmodule Akyuu.Music.Album.CoverArt do
   @moduledoc """
-  An Arc module for storing the cover art for an album.
+  A Waffle module for storing the cover art for an album.
   """
 
-  use Arc.Definition
-  def __storage, do: Arc.Storage.Local
+  use Waffle.Definition
 
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition
@@ -30,6 +29,14 @@ defmodule Akyuu.Music.Album.CoverArt do
   # def transform(:thumb, _) do
   #   {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format png", :png}
   # end
+
+  def transform(:original, _) do
+    {:convert, "-format png", :png}
+  end
+
+  def transform(:thumb, _) do
+    {:convert, "-format png", :png}
+  end
 
   # Override the persisted filenames:
   def filename(_version, _) do

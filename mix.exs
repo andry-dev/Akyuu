@@ -68,8 +68,7 @@ defmodule Akyuu.MixProject do
       {:pow_assent, "~> 0.4.8"},
       {:surface,
        git: "https://github.com/msaraiva/surface.git", tag: "v0.1.0-rc.0", override: true},
-      {:arc, "~> 0.11.0"},
-      {:arc_ecto, "~> 0.11.3"}
+      {:waffle, "~> 1.1.3"}
     ]
   end
 

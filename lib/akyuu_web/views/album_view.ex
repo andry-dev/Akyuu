@@ -8,7 +8,7 @@ defmodule AkyuuWeb.AlbumView do
 
   def get_cover_art(album) do
     tmp =
-      Album.CoverArt.url({"art.jpg", album})
+      Album.CoverArt.url({"art.png", album})
       |> Path.relative_to("/priv/static")
 
     Path.join("/", tmp)
