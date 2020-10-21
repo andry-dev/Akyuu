@@ -28,7 +28,11 @@ defmodule Akyuu.Music.CD do
     field :hidden?, :boolean, source: :is_hidden, default: false
 
     many_to_many :albums, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumCD
-    many_to_many :tracks, Akyuu.Music.Track, join_through: Akyuu.Music.TrackCD
+
+    many_to_many :tracks, Akyuu.Music.Track,
+      join_through: Akyuu.Music.TrackCD,
+      on_replace: :delete
+
     many_to_many :genres, Akyuu.Music.Genre, join_through: Akyuu.Music.GenreCD
 
     timestamps()
