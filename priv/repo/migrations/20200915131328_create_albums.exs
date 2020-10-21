@@ -9,12 +9,9 @@ defmodule Akyuu.Repo.Migrations.CreateAlbums do
       add :romaji_title, :text
       add :english_title, :text
       add :xfd_url, :string
-      add :cover_art_path, :string
 
       timestamps()
     end
-
-    create unique_index(:albums, [:label])
 
     create_fulltext_index(:albums, [:label, :title, :romaji_title, :english_title])
   end

@@ -19,7 +19,7 @@ defmodule Akyuu.Music.Album do
 
   ## Attributes
 
-  * `:label`: An unique identifier for the album.
+  * `:label`: An identifier for the album.
      It is generally formed by a 4-letter alphabetic code that identifies the
      circle and a number that identifies the album.
   * `:title`: The _original_ title of the album.
@@ -32,7 +32,6 @@ defmodule Akyuu.Music.Album do
   * `:circles`: The circles behind the album.
   * `:wanted_by_users`: Which users wants the album.
   * `:xfd_url`: The URL of the crossfade/preview.
-  * `:cover_art_path`: The path of the cover art in the server.
   """
   @type t :: %__MODULE__{
           label: String.t(),
@@ -43,8 +42,7 @@ defmodule Akyuu.Music.Album do
           events: [Akyuu.Music.EventEdition.t()],
           circles: [Akyuu.Music.Circle.t()],
           wanted_by_users: [Akyuu.Accounts.User.t()],
-          xfd_url: String.t(),
-          cover_art_path: String.t()
+          xfd_url: String.t()
         }
 
   schema "albums" do
@@ -53,7 +51,6 @@ defmodule Akyuu.Music.Album do
     field :romaji_title, :string
     field :english_title, :string
     field :xfd_url, :string
-    field :cover_art_path, :string
 
     many_to_many :cds, Akyuu.Music.CD,
       join_through: Akyuu.Music.AlbumCD,
@@ -73,14 +70,13 @@ defmodule Akyuu.Music.Album do
     timestamps()
   end
 
-  @required_fields ~w(label title romaji_title english_title xfd_url cover_art_path)a
+  @required_fields ~w(label title romaji_title english_title xfd_url)a
 
   @doc false
   def changeset(album, attrs \\ %{}) do
     album
     |> cast(attrs, @required_fields)
-    |> validate_required([:label, :title])
-    |> unique_constraint([:label])
+    |> validate_required([:title])
   end
 
   @doc false
