@@ -21,3 +21,23 @@ Music.create_member(%{
   name: "Φ串Φ",
   romaji_name: "ΦKushiΦ"
 })
+
+Music.create_member(%{
+  name: "ランコ",
+  romaji_name: "Ranko"
+})
+
+Music.create_member(%{
+  name: "コンプ",
+  romaji_name: "Comp"
+})
+
+Music.create_member(%{
+  name: "パプリカ",
+  romaji_name: "Paprika"
+})
+
+Music.create_member(%{
+  name: "ランコの姉",
+  romaji_name: "Ranko no Ane"
+})

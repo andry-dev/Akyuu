@@ -13,6 +13,11 @@ Music.create_event(:comiket,
   end_date: ~D[2019-12-31]
 )
 
+Music.create_event(:comiket,
+  edition: 98,
+  start_date: ~D[2020-05-05]
+)
+
 Music.create_event(:reitaisai,
   edition: 16,
   start_date: ~D[2019-05-05]

@@ -12,7 +12,8 @@ kushi = Repo.get_by!(Music.Member, name: "Φ串Φ")
 {:ok, 彁} =
   Music.create_album(%{
     label: "RDWL-0030",
-    title: "彁"
+    title: "彁",
+    xfd_url: "http://www.rd-sounds.com/song/_Crossfadedemo192.mp3"
   })
 
 {:ok, all_evil_mischief} =
