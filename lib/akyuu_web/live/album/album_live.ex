@@ -30,7 +30,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
         <span><strong>Edit album information</strong></span>
         <div>
           <button class="button" type="submit" form="album-form">Save</button>
-          <button class="button" type="button" @click="disable()">Cancel</button>
+          <button class="button button-danger" type="button" @click="disable()">Cancel</button>
         </div>
       </template>
 
@@ -40,7 +40,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
             <div @click="tabIndex = 0" class="nav-elem" x-bind:selected="tabIndex == 0">General</div>
             <div :for={{ cd <- Ecto.Changeset.get_field(@changeset, :cds) }}>
               <div @click="tabIndex = {{ cd.number }}" class="nav-elem" x-bind:selected="tabIndex == {{ cd.number }}">
-                CD {{ cd.number }} <button class="button" type="button" :on-click="remove-cd" phx-value-cd="{{ cd.number }}"><i class="fas fa-trash-alt"></i></button>
+                CD {{ cd.number }} <button class="button small-button button-danger" type="button" :on-click="remove-cd" phx-value-cd="{{ cd.number }}"><i class="fas fa-trash-alt"></i></button>
               </div>
             </div>
 
@@ -168,7 +168,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
 
                       <template slot="summary_end">
                         <Context get={{ Form, form: f }}>
-                          <button class="button" type="button" :on-click="remove-track" phx-value-track="{{ f.data.number }}" phx-value-cd="{{ cd_f.data.number }}"><i class="fas fa-trash-alt"></i></button>
+                          <button class="button small-button button-danger" type="button" :on-click="remove-track" phx-value-track="{{ f.data.number }}" phx-value-cd="{{ cd_f.data.number }}"><i class="fas fa-trash-alt"></i></button>
                         </Context>
                       </template>
 
@@ -421,7 +421,7 @@ defmodule AkyuuWeb.Album.AlbumLive do
   def render(assigns) do
     ~H"""
     <div x-data="edit()">
-      <button class="edit button" @click="enable()" type="button">Edit</button>
+      <button class="button" @click="enable()" type="button"><i class="fas fa-edit"></i>Edit</button>
 
       <EditForm id={{ @album.id }} changeset={{ @album_changeset }} album={{ @album }} />
 

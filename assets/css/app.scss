@@ -206,7 +206,7 @@ nav.vert {
     color: var(--button-text);
     background-color: var(--button);
     border: 0.1rem solid var(--button-border);
-    border-radius: 0.5rem;
+    border-radius: 0.2rem;
 
     padding: 0.5rem 0.75rem;
 
@@ -223,7 +223,54 @@ nav.vert {
     transition: all 0.5s;
 
     cursor: pointer;
+}
 
+.button-danger {
+    background-color: var(--button-danger);
+    border-color: var(--button-danger-border);
+
+    &:active {
+        background-color: var(--button-danger-active);
+        border-color: var(--button-danger-active-border);
+    }
+
+    &:hover {
+        background-color: var(--button-danger-hover);
+        border-color: var(--button-danger-hover-border);
+    }
+}
+
+.button-confirm {
+    background-color: var(--button-confirm);
+    border-color: var(--button-confirm-border);
+
+    &:active {
+        background-color: var(--button-confirm-active);
+        border-color: var(--button-confirm-active-border);
+    }
+
+    &:hover {
+        background-color: var(--button-confirm-hover);
+        border-color: var(--button-confirm-hover-border);
+    }
+}
+
+.very-large-button {
+    padding: 1rem 1.25rem;
+    font-size: 1.5rem;
+}
+
+.large-button {
+    padding: 0.75rem 1rem;
+    font-size: 1.25rem;
+}
+
+.small-button {
+    padding: 0.25rem 0.5rem;
+}
+
+.tiny-button {
+    padding: 0.1rem 0.25rem;
 }
 
 .transparent-button {

@@ -43,9 +43,23 @@
         --button-text: var(--text);
         --button-border: #A1346B;
         --button-active: #000000;
-        --button-border-border: var(--header-background);
+        --button-active-border: var(--header-background);
         --button-hover: #000000;
         --button-hover-border: var(--header-background);
+
+        --button-danger: #663399;
+        --button-danger-border: #A1346B;
+        --button-danger-active: #000000;
+        --button-danger-active-border: var(--header-background);
+        --button-danger-hover: #000000;
+        --button-danger-hover-border: var(--header-background);
+
+        --button-confirm: #663399;
+        --button-confirm-border: #A1346B;
+        --button-confirm-active: #000000;
+        --button-confirm-active-border: var(--header-background);
+        --button-confirm-hover: #000000;
+        --button-confirm-hover-border: var(--header-background);
 
         --details: var(--form);
         --details-border: var(--form-border);
