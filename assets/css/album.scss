@@ -1,17 +1,6 @@
-
-
-.album-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.album-title {
-    display: initial;
-    font-size: 2rem;
-}
-
-h1.album-romaji-title {
-    font-style: italic;
+.image-container > img.album-cover-art {
+    width: 25rem;
+    border-radius: 0.2rem;
 }
 
 .album-head {
@@ -21,24 +10,73 @@ h1.album-romaji-title {
     gap: 2rem;
 }
 
-.album-details {
+.album-summary {
+    display: flex;
+    flex-direction: column;
+
+    a {
+        text-shadow: initial;
+    }
+}
+
+.album-title {
+    display: initial;
+    font-size: 2rem;
+    box-shadow: 0 0 #000;
+    text-shadow: 2px 2px var(--text-shadow);
+}
+
+.album-label {
+    display: initial;
+    font-size: 2rem;
+    text-shadow: 2px 2px var(--text-shadow);
+}
+
+h1.album-romaji-title {
+    font-style: italic;
+}
+
+.album-info {
+    margin-top: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 1rem;
-    flex: 1;
+    gap: 2rem;
 }
 
-.tracks, .events {
-    width: 50%;
+.tracks {
+    flex: 50%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
-.disc {
-    background-color: var(--disc);
+.events {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 
+.preview {
+    audio {
+        width: 100%;
+    }
+
+    iframe {
+        width: 100%;
+        height: 25rem;
+    }
+}
+
+.album-secondary-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    flex: 50%;
+}
+
+.disc {
     border-radius: 2px;
     padding: 0.5rem 0.5rem;
 }
@@ -75,39 +113,6 @@ h1.album-romaji-title {
     font-style: italic;
 }
 
-.card {
-    background-color: var(--details);
-
-    border-bottom: 2px solid var(--details-border);
-    border-radius: 2px;
-
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
-
-    margin: 0.5rem 0;
-
-    .card-header {
-        cursor: pointer;
-        height: 1.5rem;
-
-        background-color: var(--summary);
-    }
-
-    .card-header-end {
-        float: right;
-    }
-
-    .details-content {
-        display: flex;
-        flex-direction: column;
-        justify-items: flex-start;
-        gap: 1rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-}
 
 .disc-card {
     background-color: var(--disc);
@@ -131,7 +136,7 @@ h1.album-romaji-title {
         margin: 0 auto;
     }
 
-    .album-head, .album-details {
+    .album-head, .album-info {
         flex-direction: column;
 
         .tracks, .events {

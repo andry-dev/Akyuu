@@ -1,28 +1,62 @@
 @media (prefers-color-scheme: light) {
     :root {
-        --background: #FFF;
+        $primary-0: #F8455A;
+        $primary-1: #FC8D9A;
+        $primary-2: #FA6475;
+        $primary-3: #F5213A;
+        $primary-4: #CF081F;
+
+        $secondary-1-0: #FF8147;
+        $secondary-1-1: #FFB28F;
+        $secondary-1-2: #FF9666;
+        $secondary-1-3: #FF6723;
+        $secondary-1-4: #D74908;
+
+        $secondary-2-0: #E13F91;
+        $secondary-2-1: #F288BE;
+        $secondary-2-2: #E95DA4;
+        $secondary-2-3: #D51D7B;
+        $secondary-2-4: #B1075D;
+
+        $accent: $primary-0;
+        $gray: #F1F1F1;
+
+        --background: #FDD;
         --code-background: #FFFFD7;
 
-        --text: #322;
+        --text: #000;
         --text-code-hl: rgb(150, 0, 0);
+        --text-shadow: #CCC;
+
+        --audio: #{$accent};
+
+        --input-text: #000;
 
         --link: rgb(0, 0, 50);
         --link-visited: rgb(0, 75, 50);
         --link-active: #EEE;
         --link-hover: #000;
 
-        --header-background: #FAFAFA;
-        --header-border: #FEF;
+        --header-background: #{$accent};
+        --header-border: #{darken($accent, 10%)};
 
         --header-link: var(--link);
         --header-link-visited: var(--link-visited);
         --header-link-active: var(--link-active);
         --header-link-hover: var(--link-hover);
 
+        --nav-separator: var(--header-border);
+        --nav-elem: transparent;
+        --nav-elem-text: var(--text);
+        --nav-elem-border: var(--nav-separator);
+        --nav-elem-selected: #{$secondary-2-1};
 
-        --search-bar: #DDE;
-        --search-bar-active: #AAF;
+        --search-bar: #{$primary-1};
+        --search-bar-active: #FFF;
+        --search-bar-border: #{$primary-3};
+        --search-bar-border-active: #{$secondary-2-4};
         --search-results: #FFF;
+        --search-results-text: #000;
         --search-results-shadow: rgba(101, 119, 134, 0.2);
         --search-results-border: #AAA;
 
@@ -37,21 +71,30 @@
         --details-border: var(--form-border);
         --summary: var(--details);
 
+        --card: #{$primary-2};
+        --card-text: #000;
+        --card-border: #{$secondary-1-4};
+        --card-nested-1: #{$primary-1};
+        --card-nested-1-border: #{$secondary-2-3};
+        --card-nested-2: #{$secondary-2-2};
+        --card-nested-2-border: #{$secondary-2-4};
+
         --editable: var(--background);
         --editable-hover: #FEFEFF;
         --editable-border: #AAF;
 
-        --disc: var(--details);
-        --track: #DFDFE0;
-
         --modal: var(--background);
         --modal-transparency-layer: rgb(10, 10, 10, 0.80);
         --modal-header: var(--header-background);
+        --modal-header-text: #000;
         --modal-header-border: var(--header-border);
 
         --modal-form: var(--form);
-        --modal-form-entry-border: var(--search-bar);
-
+        --modal-form-entry: #FFF;
+        --modal-form-entry-active: #FFF;
+        --modal-form-entry-text: #000;
+        --modal-form-entry-border: #{$primary-3};
+        --modal-form-entry-border-active: var(--search-bar-border-active);
     }
 
     #search-icon {

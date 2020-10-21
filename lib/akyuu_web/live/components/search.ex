@@ -8,12 +8,12 @@ defmodule AkyuuWeb.Components.Search do
       alias AkyuuWeb.Components.Empty
       alias Surface.Components.Form.TextInput
 
-      prop pick, :event, required: true
+      prop(pick, :event, required: true)
 
       def render(var!(assigns)) do
         ~H"""
         <div>
-          <TextInput class="sarch-bar" keydown="search" value={{ Map.get(assigns, :query, "") }} />
+          <TextInput class="search-bar" keydown="search" value={{ Map.get(assigns, :query, "") }} />
           <div :if={{ Map.get(assigns, :results, []) != [] }} class="search-results">
             <Empty :for={{ result <- Map.get(assigns, :results) }}>
               <div class="search-result" :on-click={{ @pick }} phx-value-result="{{ result.id }}">{{ display(result) }}</div>
@@ -22,7 +22,6 @@ defmodule AkyuuWeb.Components.Search do
         </div>
         """
       end
-
     end
   end
 end

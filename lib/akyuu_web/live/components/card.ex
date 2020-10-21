@@ -11,9 +11,11 @@ defmodule AkyuuWeb.Components.Card do
 
   prop(class, :css_class)
 
+  prop(open, :boolean, default: true)
+
   def render(assigns) do
     ~H"""
-    <details class="card {{ @class }}" open>
+    <details class="card {{ @class }}" open={{ @open }}>
       <summary class="card-header">
         <div class="inline-row inline-little-spacing">
           <slot name="summary"/>
@@ -45,7 +47,7 @@ defmodule AkyuuWeb.Components.TrackCard do
 
   def render(assigns) do
     ~H"""
-      <Card class="track-card">
+      <Card class="card-nested-1">
         <template slot="summary">
           <span class="track-no">{{ @track.number }}.</span>
           <span class="track-title">{{ @track.title }}</span>
@@ -84,7 +86,7 @@ defmodule AkyuuWeb.Components.DiscCard do
 
   def render(assigns) do
     ~H"""
-    <Card class="disc-card">
+    <Card>
       <template slot="summary">
         <span class="disc-no">Disc {{ @disc.number }}</span>
         <span>{{ length @disc.tracks }} tracks</span>
@@ -108,7 +110,7 @@ defmodule AkyuuWeb.Components.EventCard do
 
   def render(assigns) do
     ~H"""
-    <Card class="event-card">
+    <Card>
       <template slot="summary">
         <span class="event-no">[{{ Akyuu.Music.EventEdition.abbreviation_to_string(@edition.edition) }}]</span>
         <span class="event-name">{{ @edition.edition.event.name }} {{ @edition.edition.edition }}</span>

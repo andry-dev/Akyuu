@@ -4,7 +4,6 @@ defmodule AkyuuWeb.AlbumView do
   import AkyuuWeb.View.Helpers
 
   alias Akyuu.Music.Album
-  alias Akyuu.Repo
 
   def get_cover_art(album) do
     tmp =
@@ -102,5 +101,21 @@ defmodule AkyuuWeb.AlbumView do
       |> Enum.reduce(0, fn x, acc -> x + acc end)
 
     format_time(Time.add(~T[00:00:00], total_seconds))
+  end
+
+  def youtube_url?(xfd_url) do
+    uri = URI.parse(xfd_url)
+
+    uri.host == "www.youtube.com"
+  end
+
+  def soundcloud_url?(xfd_url) do
+    uri = URI.parse(xfd_url)
+
+    uri.host == "w.soundcloud.com"
+  end
+
+  def direct_url?(xfd_url) do
+    !youtube_url?(xfd_url) and !soundcloud_url?(xfd_url)
   end
 end

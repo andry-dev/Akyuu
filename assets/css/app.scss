@@ -1,6 +1,7 @@
 /* This file is for your main application css. */
 /*@import "./phoenix.css"; */
 
+@import "~@fortawesome/fontawesome-free/css/fontawesome.css";
 @import "~@fortawesome/fontawesome-free/css/solid.css";
 
 @import "day.scss";
@@ -150,6 +151,85 @@ header nav a {
 
 }
 
+nav {
+    overflow: hidden;
+
+    .nav-elem {
+        cursor: pointer;
+        padding: 1rem;
+        color: var(--nav-elem-text);
+        background-color: var(--nav-elem);
+
+        &[selected] {
+            background-color: var(--nav-elem-selected);
+            border-right: 0.2rem solid var(--nav-separator);
+        }
+    }
+}
+
+nav.vert {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    overflow: hidden;
+    border-right: 0.2rem solid var(--nav-separator);
+
+    .nav-elem {
+        text-decoration: underline;
+    }
+}
+
+.split-panel-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    overflow: hidden;
+
+    min-height: 100%;
+}
+
+.panel-content {
+    padding: 0 0.5rem;
+    flex: 80%;
+
+    overflow: auto;
+    height: 100%;
+}
+
+.height-100 {
+    height: 100%;
+}
+
+.button {
+    width: auto;
+
+    color: var(--button-text);
+    background-color: var(--button);
+    border: 0.1rem solid var(--button-border);
+    border-radius: 0.5rem;
+
+    padding: 0.5rem 0.75rem;
+
+    &:active {
+        background-color: var(--button-active);
+        border-color: var(--button-active-border);
+    }
+
+    &:hover {
+        background-color: var(--button-hover);
+        border-color: var(--button-hover-border);
+    }
+
+    transition: all 0.5s;
+
+    cursor: pointer;
+
+}
+
+.transparent-button {
+    background-color: transparent;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -185,7 +265,7 @@ form {
         overflow-wrap: break-word;
         width: 100%;
         font-size: 20px;
-        color: var(--text);
+        color: var(--input-text);
     }
 
     input[type=checkbox] {
@@ -219,20 +299,22 @@ form.search-form {
             height: $search-icon-size;
         }
 
-        input {
-            color: var(--text);
-            appearance: searchfield;
-            background-color: var(--search-bar-background);
-            border: 0.2rem solid var(--search-bar);
-            border-radius: 0.2rem;
-            padding: 0.1rem;
+    }
+}
 
-            transition: all 0.2s ease;
+.search-bar {
+    color: var(--input-text);
+    appearance: searchfield;
+    background-color: var(--search-bar);
+    border: 0.2rem solid var(--search-bar-border);
+    border-radius: 0.2rem;
+    padding: 0.1rem;
 
-            &:focus, &:active {
-                border: 0.2rem solid var(--search-bar-active);
-            }
-        }
+    transition: all 0.25s ease;
+
+    &:focus, &:active {
+        background-color: var(--search-bar-active);
+        border-color: var(--search-bar-border-active);
     }
 }
 
@@ -241,21 +323,21 @@ form.search-form {
     z-index: 2;
     display: block;
     position: absolute;
-    width: 17.1rem;
-    line-height: 1em;
-    margin: 0;
-    background-color: var(--search-results);
-    border-radius: 0.5rem;
-    padding: 3%;
-    box-shadow: var(--search-results-shadow) 0px 0px 15px, var(--search-results-shadow) 0px 0px 3px 1px;
     top: 0.5rem;
     left: $search-icon-gap + $search-icon-size;
-}
 
-.results-box:blank {
-    display: none;
-}
+    width: 17.1rem;
+    margin: 0;
+    padding: 3%;
 
+
+    line-height: 1em;
+
+    color: var(--search-results-text);
+    background-color: var(--search-results);
+    border-radius: 0.5rem;
+    box-shadow: var(--search-results-shadow) 0px 0px 15px, var(--search-results-shadow) 0px 0px 3px 1px;
+}
 
 .results-box > .results-category {
     font-weight: bold;
@@ -268,13 +350,20 @@ form.search-form {
 
 }
 
+.search-result-link {
+    text-decoration: none;
+
+    color: var(--search-results-text);
+
+    &:active, &:visited, &:hover {
+        color: var(--search-results-text);
+    }
+}
+
 .search-result {
     border-bottom: 1px solid var(--search-results-border);
     cursor: pointer;
 
-    a {
-        text-decoration: none;
-    }
 }
 
 button.edit::before {
@@ -339,6 +428,10 @@ button.reset::before {
 .inline-col {
     display: inline-flex;
     flex-direction: column;
+}
+
+.inline-50 {
+    width: 50%;
 }
 
 .inline-no-spacing {

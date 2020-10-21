@@ -5,23 +5,32 @@
 
         --text: #EEE;
         --text-code-hl: rgb(150, 0, 0);
-
-        --header-background: #91245B;
-        --header-border: #914169;
-        --header-link: rgb(205, 205, 255);
-        --header-link-visited: rgb(220, 220, 220);
-        --header-link-active: #EEE;
-        --header-link-hover: #FFF;
-
+        --text-shadow: #333;
 
         --link: rgb(150, 150, 255);
         --link-visited: rgb(220, 220, 220);
         --link-active: #EEE;
         --link-hover: #FFF;
 
-        --search-bar: #AAA;
-        --search-bar-active: #CCF;
+        --header-background: #91245B;
+        --header-border: #914169;
+
+        --header-link: rgb(205, 205, 255);
+        --header-link-visited: rgb(220, 220, 220);
+        --header-link-active: #EEE;
+        --header-link-hover: #FFF;
+
+        --nav-separator: var(--header-border);
+        --nav-elem: transparent;
+        --nav-elem-border: var(--header-border);
+        --nav-elem-selected: #403;
+
+        --search-bar: transparent;
+        --search-bar-active: #000;
+        --search-bar-border: #AAA;
+        --search-bar-border-active: #CCF;
         --search-results: var(--background);
+        --search-results-text: #FFF;
         --search-results-shadow: rgba(255, 255, 255, 0.2);
         --search-results-border: #AAA;
 
@@ -30,18 +39,28 @@
         --form: #350E21;
         --form-border: var(--header-background);
 
+        --button: #663399;
+        --button-text: var(--text);
+        --button-border: #A1346B;
+        --button-active: #000000;
+        --button-border-border: var(--header-background);
+        --button-hover: #000000;
+        --button-hover-border: var(--header-background);
+
         --details: var(--form);
         --details-border: var(--form-border);
         --summary: var(--details);
 
-        --search-icon-invert-factor: 0;
+        --card: var(--details);
+        --card-border: var(--details-border);
+        --card-nested-1: #250011;
+        --card-nested-1-border: var(--card-border);
+        --card-nested-2: #DFDFE0;
+        --card-nested-2-border: #DFDFE0;
 
         --editable: transparent;
         --editable-border: var(--form-border);
         --editable-hover: var(--editable);
-
-        --disc: var(--details);
-        --track: #250011;
 
         --modal: var(--background);
         --modal-transparency-layer: rgb(10, 10, 10, 0.80);
@@ -49,6 +68,10 @@
         --modal-header-border: var(--header-border);
 
         --modal-form: var(--form);
+        --modal-form-entry: #FFF;
+        --modal-form-entry-active: #FFF;
+        --modal-form-entry-text: #000;
         --modal-form-entry-border: #FFCCFA;
+        --modal-form-entry-border-active: var(--search-bar-border-active);
     }
 }
