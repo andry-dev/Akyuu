@@ -40,7 +40,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
             <div @click="tabIndex = 0" class="nav-elem" x-bind:selected="tabIndex == 0">General</div>
             <div :for={{ cd <- Ecto.Changeset.get_field(@changeset, :cds) }}>
               <div @click="tabIndex = {{ cd.number }}" class="nav-elem" x-bind:selected="tabIndex == {{ cd.number }}">
-                CD {{ cd.number }} <button class="button small-button button-danger" type="button" :on-click="remove-cd" phx-value-cd="{{ cd.number }}"><i class="fas fa-trash-alt"></i></button>
+                CD {{ cd.number }} <button class="button button-danger small-button " type="button" :on-click="remove-cd" phx-value-cd="{{ cd.number }}"><i class="fas fa-trash-alt"></i></button>
               </div>
             </div>
 

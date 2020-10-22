@@ -205,22 +205,23 @@ nav.vert {
 
     color: var(--button-text);
     background-color: var(--button);
-    border: 0.1rem solid var(--button-border);
+    border: none;
     border-radius: 0.2rem;
 
     padding: 0.5rem 0.75rem;
 
-    &:active {
+    &:focus {
         background-color: var(--button-active);
-        border-color: var(--button-active-border);
+        border: 0.15rem solid var(--button-active-border);
+        color: var(--button-active-text);
     }
 
     &:hover {
         background-color: var(--button-hover);
-        border-color: var(--button-hover-border);
+        color: var(--button-hover-text);
     }
 
-    transition: all 0.5s;
+    transition: all 0.1s;
 
     cursor: pointer;
 }
@@ -228,30 +229,36 @@ nav.vert {
 .button-danger {
     background-color: var(--button-danger);
     border-color: var(--button-danger-border);
+    color: var(--button-danger-text);
 
-    &:active {
+    &:focus {
         background-color: var(--button-danger-active);
         border-color: var(--button-danger-active-border);
+        color: var(--button-danger-active-text);
     }
 
     &:hover {
         background-color: var(--button-danger-hover);
         border-color: var(--button-danger-hover-border);
+        color: var(--button-danger-hover-text);
     }
 }
 
 .button-confirm {
     background-color: var(--button-confirm);
     border-color: var(--button-confirm-border);
+    color: var(--button-confirm-text);
 
-    &:active {
+    &:focus {
         background-color: var(--button-confirm-active);
         border-color: var(--button-confirm-active-border);
+        color: var(--button-confirm-active-text);
     }
 
     &:hover {
         background-color: var(--button-confirm-hover);
         border-color: var(--button-confirm-hover-border);
+        color: var(--button-confirm-hover-text);
     }
 }
 
@@ -275,6 +282,10 @@ nav.vert {
 
 .transparent-button {
     background-color: transparent;
+
+    &:focus, &:active {
+        background-color: transparent;
+    }
 }
 
 form {

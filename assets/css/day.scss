@@ -65,6 +65,30 @@
         --form: #EEEEEF;
         --form-border: #AAF;
 
+        --button: #{$secondary-2-0};
+        --button-text: #FFF;
+        --button-focus: #EEE;
+        --button-focus-text: var(--button-text);
+        --button-focus-border: #FFF;
+        --button-hover: #{darken($secondary-2-0, 15%)};
+        --button-hover-text: var(--button-text);
+
+        --button-danger: #F00;
+        --button-danger-text: #FFF;
+        --button-danger-focus: #000000;
+        --button-danger-focus-text: var(--button-danger-text);
+        --button-danger-focus-border: var(--header-background);
+        --button-danger-hover: #D00;
+        --button-danger-hover-text: #FFF;
+
+        --button-confirm: #663399;
+        --button-confirm-text: var(--text);
+        --button-confirm-focus: #000000;
+        --button-confirm-focus-text: var(--button-confirm-text);
+        --button-confirm-focus-border: var(--header-background);
+        --button-confirm-hover: #000000;
+        --button-confirm-hover-text: var(--button-confirm-text);
+
         --tooltip: #DEDEDE;
 
         --details: var(--form);
@@ -85,9 +109,9 @@
 
         --modal: var(--background);
         --modal-transparency-layer: rgb(10, 10, 10, 0.80);
-        --modal-header: var(--header-background);
+        --modal-header: #{$primary-1};
         --modal-header-text: #000;
-        --modal-header-border: var(--header-border);
+        --modal-header-border: var(--nav-separator);
 
         --modal-form: var(--form);
         --modal-form-entry: #FFF;

@@ -41,24 +41,32 @@
 
         --button: #663399;
         --button-text: var(--text);
-        --button-border: #A1346B;
+        --button-border: var(--button-text);
         --button-active: #000000;
+        --button-active-text: var(--button-text);
         --button-active-border: var(--header-background);
         --button-hover: #000000;
+        --button-hover-text: var(--button-text);
         --button-hover-border: var(--header-background);
 
         --button-danger: #663399;
-        --button-danger-border: #A1346B;
+        --button-danger-text: var(--text);
+        --button-danger-border: #FFF;
         --button-danger-active: #000000;
+        --button-danger-active-text: var(--button-danger-text);
         --button-danger-active-border: var(--header-background);
         --button-danger-hover: #000000;
-        --button-danger-hover-border: var(--header-background);
+        --button-danger-hover-text: #F00;
+        --button-danger-hover-border: #F00;
 
         --button-confirm: #663399;
+        --button-confirm-text: var(--text);
         --button-confirm-border: #A1346B;
         --button-confirm-active: #000000;
+        --button-confirm-active-text: var(--button-confirm-text);
         --button-confirm-active-border: var(--header-background);
         --button-confirm-hover: #000000;
+        --button-confirm-hover-text: var(--button-confirm-text);
         --button-confirm-hover-border: var(--header-background);
 
         --details: var(--form);
