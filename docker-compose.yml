@@ -2,15 +2,14 @@ version: "3"
 
 services:
   akyuu:
-    build: .
-    volumes:
-      - ../..:/app
+    image: "akyuu:latest"
     ports:
-      - "4000:4000"
-    environment:
-        - DATABASE_HOST=db
+        - "80:4000"
+    env_file:
+        - rel/docker.env
     depends_on:
       - db
+
   db:
     image: groonga/pgroonga:latest
     environment:
@@ -19,4 +18,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     restart: unless-stopped
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+        - db-data:/var/lib/postgresql/data/pgdata
+
+volumes:
+    db-data:

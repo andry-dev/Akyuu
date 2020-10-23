@@ -47,14 +47,15 @@ defmodule Akyuu.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ex_doc, "~> 0.22.6", only: :dev, runtime: false},
-      {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
+      {:distillery, "~> 2.0"},
+      {:ex_doc, "~> 0.22", only: :dev, runtime: false},
+      {:credo, "~> 1.5.0-rc.4", only: [:dev, :test], runtime: false},
       # {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
-      {:phoenix, "~> 1.5.4"},
-      {:phoenix_ecto, "~> 4.1"},
+      {:phoenix, "~> 1.5"},
+      {:phoenix_ecto, "~> 4.2"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
-      {:myxql, ">= 0.0.0"},
+      # {:myxql, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       # {:phoenix_live_dashboard, "~> 0.2"},
@@ -64,11 +65,10 @@ defmodule Akyuu.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:argon2_elixir, "~> 1.3"},
-      {:pow, "~> 1.0.21"},
-      {:pow_assent, "~> 0.4.8"},
-      {:surface,
-       git: "https://github.com/msaraiva/surface.git", tag: "v0.1.0-rc.0", override: true},
-      {:waffle, "~> 1.1.3"}
+      {:pow, "~> 1.0"},
+      {:pow_assent, "~> 0.4"},
+      {:surface, git: "https://github.com/msaraiva/surface.git", tag: "v0.1.0-rc.1"},
+      {:waffle, "~> 1.1"}
     ]
   end
 

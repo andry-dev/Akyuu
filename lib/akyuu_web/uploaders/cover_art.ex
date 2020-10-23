@@ -45,7 +45,20 @@ defmodule Akyuu.Music.Album.CoverArt do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
-    "priv/static/uploads/album/cover_arts/#{scope.id}"
+    Path.join(:code.priv_dir(:akyuu), "static/uploads/album/cover_arts/#{scope.id}")
+  end
+
+  @doc """
+  Returns the URL of the image relative to the webroot of the project.
+  """
+  def pretty_url(file) do
+    storage_path = Path.join(:code.priv_dir(:akyuu), "/static")
+
+    tmp =
+      url(file)
+      |> Path.relative_to(storage_path)
+
+    Path.join("/", tmp)
   end
 
   # Provide a default URL if there hasn't been a file uploaded

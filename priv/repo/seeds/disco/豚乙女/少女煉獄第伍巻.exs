@@ -124,5 +124,4 @@ cd1
 |> Music.Album.add_cd(cd1)
 
 Music.Event.find_event(:comiket, 98)
-|> IO.inspect()
 |> Music.EventEdition.add_album(少女煉獄第伍巻, price_jpy: 1000)
