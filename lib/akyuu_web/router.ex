@@ -46,7 +46,10 @@ defmodule AkyuuWeb.Router do
 
     get "/", PageController, :index
     get "/user/:username", UserController, :show
-    resources "/album", AlbumController
+
+    live "/album", AlbumLive.Index
+    live "/album/:id", AlbumLive.Show
+    # resources "/album", AlbumController
     # get "/members/:id", UserController, :show
     # get "/events/:id", UserController, :show
   end
