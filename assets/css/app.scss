@@ -87,8 +87,8 @@ a {
 
 hr {
     border: 0;
-    border-bottom: 1px dashed var(--hr);
-    background: #000;
+    border-bottom: 2px dashed var(--hr);
+    background-color: transparent;
     margin-left: 0;
     margin-right: 0;
     width: 100%;
@@ -175,7 +175,10 @@ nav.vert {
     border-right: 0.2rem solid var(--nav-separator);
 
     .nav-elem {
-        text-decoration: underline;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
 }
 
@@ -478,6 +481,10 @@ button.reset::before {
     }
 }
 
+.full {
+    width: 100%;
+}
+
 .inline-row {
     display: inline-flex;
     flex-direction: row;
@@ -489,7 +496,7 @@ button.reset::before {
 }
 
 .inline-50 {
-    width: 50%;
+    flex: 50%;
 }
 
 .inline-no-spacing {
@@ -515,6 +522,10 @@ button.reset::before {
 @import "components.scss";
 
 @import "album.scss";
+
+.cursor-move {
+    cursor: move !important;
+}
 
 @media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
     header section {

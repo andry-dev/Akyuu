@@ -116,7 +116,6 @@ defmodule AkyuuWeb.Components.EventCard do
         <span class="event-name">{{ @edition.edition.event.name }} {{ @edition.edition.edition }}</span>
       </template>
 
-      <span class="event-romaji-name">{{ @edition.edition.event.romaji_name }}</span>
       <span class="event-english-name">{{ @edition.edition.event.english_name }}</span>
 
       <hr/>

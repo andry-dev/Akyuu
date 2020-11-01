@@ -96,4 +96,8 @@
         --modal-form-entry-border: #FFCCFA;
         --modal-form-entry-border-active: var(--search-bar-border-active);
     }
+
+    .drag-indicator {
+        filter: invert(1);
+    }
 }

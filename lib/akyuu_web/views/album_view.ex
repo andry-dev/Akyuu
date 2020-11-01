@@ -6,11 +6,7 @@ defmodule AkyuuWeb.AlbumView do
   alias Akyuu.Music.Album
 
   def get_cover_art(album) do
-    tmp =
-      Album.CoverArt.url({"art.png", album})
-      |> Path.relative_to("/priv/static")
-
-    Path.join("/", tmp)
+    Album.CoverArt.pretty_url({"art.png", album})
   end
 
   def instrumental?(track) do

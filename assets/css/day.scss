@@ -60,7 +60,7 @@
         --search-results-shadow: rgba(101, 119, 134, 0.2);
         --search-results-border: #AAA;
 
-        --hr: #AAA;
+        --hr: var(--text);
 
         --form: #EEEEEF;
         --form-border: #AAF;

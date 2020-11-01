@@ -1,4 +1,4 @@
-defmodule AkyuuWeb.Album.AlbumLive.EditForm do
+defmodule AkyuuWeb.AlbumLive.FormComponent do
   @moduledoc false
 
   use Surface.LiveComponent
@@ -6,9 +6,9 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
   alias Akyuu.Music
   alias AkyuuWeb.Components.Card
   alias AkyuuWeb.Components.CircleSearch
-  alias AkyuuWeb.Components.Empty
   alias AkyuuWeb.Components.Modal
-  alias AkyuuWeb.Router.Helpers, as: Routes
+  alias AkyuuWeb.Components.SortableList
+  alias AkyuuWeb.Components.SortableListItem
   alias Surface.Components.Form
   alias Surface.Components.Form.Checkbox
   alias Surface.Components.Form.Field
@@ -19,9 +19,22 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
   alias Surface.Components.Form.TextInput
 
   import AkyuuWeb.AlbumView
+  # import AkyuuWeb.ErrorHelpers
 
+  data(validated_changeset, :map, default: %Ecto.Changeset{})
   prop(changeset, :map, required: true)
   prop(album, :map, required: true)
+  prop(action, :string, default: "#")
+  prop(change, :event)
+  prop(submit, :event)
+
+  def mount(_params, _assigns, socket) do
+    assigns = [
+      validated_changeset: nil
+    ]
+
+    {:ok, assign(socket, assigns)}
+  end
 
   def render(assigns) do
     ~H"""
@@ -34,17 +47,21 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
         </div>
       </template>
 
-      <Form for={{ @changeset }} action={{ Routes.album_path(@socket, :update, @album.id) }} opts={{ multipart: true, id: "album-form", class: "modal-form height-100" }}>
+      <Form for={{ @changeset }} action={{ @action }} change="validate" submit={{ @submit }} opts={{ multipart: true, id: "album-form", class: "modal-form height-100" }}>
         <div class="split-panel-nav" x-data="{ tabIndex: 0 }">
           <nav class="vert">
             <div @click="tabIndex = 0" class="nav-elem" x-bind:selected="tabIndex == 0">General</div>
-            <div :for={{ cd <- Ecto.Changeset.get_field(@changeset, :cds) }}>
-              <div @click="tabIndex = {{ cd.number }}" class="nav-elem" x-bind:selected="tabIndex == {{ cd.number }}">
-                CD {{ cd.number }} <button class="button button-danger small-button " type="button" :on-click="remove-cd" phx-value-cd="{{ cd.number }}"><i class="fas fa-trash-alt"></i></button>
-              </div>
-            </div>
+            <SortableList id="cd-list-select" sort="sort-cds" target="#album-form">
+              <SortableListItem class="sortable-list-item" :for={{ cd <- Ecto.Changeset.get_field(@changeset, :cds) }} sortable_id={{ fetch_id(cd) }}>
+                <div id={{ fetch_id(cd) }} @click="tabIndex = {{ fetch_id(cd) }}" class="nav-elem cursor-move" x-bind:selected="tabIndex == {{ fetch_id(cd) }}">
+                  <img class="drag-indicator" src="/icons/drag_indicator.svg"/>
+                  <span class="nav-elem-text">CD {{ cd.number }}</span>
+                  <button class="button button-danger small-button" type="button" :on-click="remove-cd" phx-value-cd="{{ fetch_id(cd) }}"><i class="fas fa-trash-alt"></i></button>
+                </div>
+              </SortableListItem>
+            </SortableList>
 
-            <div class="nav-elem" :on-click="add-cd">Add CD</div>
+            <div class="nav-elem" :on-click="add-cd"><span><i class="fas fa-plus"></i> Add CD</span></div>
           </nav>
 
           <div class="panel-content">
@@ -58,28 +75,33 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
                       <Field name="title" class="form-entry">
                         <Label>Album title</Label>
                         <TextInput/>
+                        {{ error_tag @validated_changeset, :title }}
                       </Field>
 
                       <Field name="romaji_title" class="form-entry">
                         <Label>Album title (romaji)</Label>
                         <TextInput/>
+                        {{ error_tag @validated_changeset, :romaji_title }}
                       </Field>
 
                       <Field name="english_title" class="form-entry">
                         <Label>Album title (English)</Label>
                         <TextInput/>
+                        {{ error_tag @validated_changeset, :english_title }}
                       </Field>
 
                       <Field name="label" class="form-entry">
                         <Label>Album label</Label>
                         <span>A label is an unique string that identifies an album.</span>
                         <TextInput/>
+                        {{ error_tag @validated_changeset, :label }}
                       </Field>
 
                       <Field name="xfd_url" class="form-entry">
                         <Label>Crossfade url</Label>
                         <span>The crossfade of the album should contain either a link to Youtube embed (<em>youtube.com/embed</em>), a link to a SoundCloud embed (<em>w.soundcloud.com</em>) or a direct link to the audio file.</span>
                         <TextInput/>
+                        {{ error_tag @validated_changeset, :xfd_url }}
                       </Field>
                     </div>
                   </div>
@@ -108,7 +130,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
 
               <div class="form-entry">
                 <Label>Search circles</Label>
-                <CircleSearch id="circle-search" pick="pick-circle"/>
+                <CircleSearch field={{ :circle_search }} id="circle-search" pick="pick-circle"/>
               </div>
 
               <Inputs for={{ :circles }}>
@@ -116,7 +138,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
                   <Field name="id"><NumberInput opts={{ hidden: true}}/></Field>
 
                   <Field name="name" class="form-entry">
-                    <Label>{{ f.data.name }}</Label>
+                    <Label>{{ f.data.name }} <button type="button" class="button small-button button-danger" :on-click="remove-circle" phx-value-circle={{ f.data.id }}><i class="fas fa-trash-alt"></i></button></Label>
                     <TextInput opts={{ hidden: true }}/>
                   </Field>
                 </Context>
@@ -125,22 +147,24 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
 
             <Inputs for={{ :cds }}>
               <Context get={{ Form, form: cd_f }}>
-                <div x-show="tabIndex == {{ cd_f.data.number }}" x-cloak>
+              <Context put={{ cd_cs: filter_cd(@validated_changeset, cd_f.data.number) }}>
+              <Context get={{ cd_cs: cd_cs }}>
+                <div x-show="tabIndex == {{ fetch_id(cd_f.data) }}" x-cloak>
                   <h2>CD {{ cd_f.data.number }}</h2>
 
-                  <div class="inline-row inline-little-spacing">
-                    <Field name="number" class="form-entry">
-                      <Label>Number</Label>
-                      <NumberInput/>
-                    </Field>
+                  <Field name="number" class="form-entry">
+                    <NumberInput opts={{ hidden: true }}/>
+                    {{ error_tag cd_cs, :number }}
+                  </Field>
 
+                  <div class="inline-row inline-little-spacing full">
                     <Field name="title" class="form-entry">
                         <Label>Title</Label>
                         <TextInput/>
                     </Field>
                   </div>
 
-                  <div class="inline-row inline-little-spacing">
+                  <div class="inline-row inline-little-spacing full">
                     <Field name="romaji_title" class="form-entry">
                       <Label>Romaji title</Label>
                       <TextInput/>
@@ -158,7 +182,11 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
                   </Field>
 
                   <button class="button" type="button" :on-click="add-track" phx-value-cd={{ cd_f.data.number }}>New track</button>
-                  <Inputs for={{ :tracks }} >
+
+                  <h3>Tracks</h3>
+
+                  <div class="inline-col inline-medium-spacing full">
+                  <Inputs for={{ :tracks }}>
                     <Card class="card-nested-1">
                       <template slot="summary">
                         <Context get={{ Form, form: f }}>
@@ -172,8 +200,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
                         </Context>
                       </template>
 
-
-                      <div class="inline-row inline-little-spacing">
+                      <div class="inline-row inline-little-spacing full">
                         <Field name="number" class="form-entry">
                           <Label>Track number</Label>
                           <NumberInput/>
@@ -185,7 +212,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
                         </Field>
                       </div>
 
-                      <div class="inline-row inline-little-spacing">
+                      <div class="inline-row inline-little-spacing full">
                         <Field name="romaji_title" class="form-entry">
                           <Label>Track romaji title</Label>
                           <TextInput/>
@@ -208,7 +235,10 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
                       </Field>
                     </Card>
                   </Inputs>
+                  </div>
                 </div>
+              </Context>
+              </Context>
               </Context>
             </Inputs>
           </div>
@@ -223,7 +253,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
 
     new_circles =
       Ecto.Changeset.get_field(socket.assigns.changeset, :circles)
-      |> Enum.concat([new_circle])
+      |> Enum.concat([Music.Circle.changeset(new_circle)])
       |> Enum.uniq_by(fn x -> x.id end)
 
     changeset =
@@ -231,6 +261,26 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
       |> Ecto.Changeset.put_assoc(:circles, new_circles)
 
     {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  def handle_event("remove-circle", %{"circle" => circle_id}, socket) do
+    circle_id = String.to_integer(circle_id)
+
+    circles = Ecto.Changeset.get_field(socket.assigns.changeset, :circles)
+
+    if length(circles) > 1 do
+      new_circles =
+        circles
+        |> Enum.reject(fn x -> x.id == circle_id end)
+
+      changeset =
+        socket.assigns.changeset
+        |> Ecto.Changeset.put_assoc(:circles, new_circles)
+
+      {:noreply, assign(socket, changeset: changeset)}
+    else
+      {:noreply, socket}
+    end
   end
 
   def handle_event("add-track", %{"cd" => cd_num}, socket) do
@@ -256,10 +306,10 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
     new_tracks =
       tracks
       |> Enum.concat([
-        %Music.Track{
+        Music.Track.changeset(%Music.Track{
           number: max_track_num + 1,
           performed_by_members: []
-        }
+        })
       ])
 
     new_cds =
@@ -275,7 +325,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
 
     new_changeset =
       socket.assigns.changeset
-      |> Ecto.Changeset.put_change(:cds, new_cds)
+      |> Ecto.Changeset.put_assoc(:cds, new_cds)
 
     {:noreply, assign(socket, changeset: new_changeset)}
   end
@@ -291,12 +341,13 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
     cds =
       cds
       |> Enum.concat([
-        %Music.CD{
+        Music.CD.changeset(%Music.CD{
+          tmp_id: gen_id(),
           number: max_cd_num + 1,
           tracks: [
             %Music.Track{number: 1, performed_by_members: []}
           ]
-        }
+        })
       ])
 
     changeset =
@@ -306,19 +357,24 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
     {:noreply, assign(socket, changeset: changeset)}
   end
 
-  def handle_event("remove-cd", %{"cd" => cd_num}, socket) do
-    cd_num = String.to_integer(cd_num)
+  def handle_event("remove-cd", %{"cd" => cd_id}, socket) do
+    cd_id = String.to_integer(cd_id)
 
     cds = Ecto.Changeset.get_field(socket.assigns.changeset, :cds)
 
-    if length(cds) != 1 do
+    if length(cds) > 1 do
       cds =
         cds
-        |> Enum.reject(fn x -> x.number == cd_num end)
+        |> Enum.reject(fn x -> x.id == cd_id or x.tmp_id == cd_id end)
+        |> Enum.with_index(1)
+        |> Enum.map(fn {cd, num} ->
+          Map.put(cd, :number, num)
+        end)
 
       changeset =
         socket.assigns.changeset
         |> Ecto.Changeset.put_assoc(:cds, cds)
+        |> IO.inspect()
 
       {:noreply, assign(socket, changeset: changeset)}
     else
@@ -342,7 +398,7 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
         cd.tracks
       end)
 
-    if length(tracks) != 1 do
+    if length(tracks) > 1 do
       tracks =
         tracks
         |> Enum.reject(fn t -> t.number == track_num end)
@@ -368,148 +424,86 @@ defmodule AkyuuWeb.Album.AlbumLive.EditForm do
     end
   end
 
-  def handle_event("validate", _values, socket) do
+  def handle_event("sort-cds", %{"list" => list}, socket) do
+    IO.inspect(list)
+
+    cds =
+      Ecto.Changeset.get_field(socket.assigns.changeset, :cds)
+      |> Enum.map(fn x ->
+        found_elem =
+          Enum.find(list, fn %{"id" => cd_id} ->
+            cd_id = String.to_integer(cd_id)
+            x.id == cd_id or x.tmp_id == cd_id
+          end)
+
+        new_number = Map.get(found_elem, "sort_order") + 1
+
+        Map.put(x, :number, new_number)
+      end)
+      |> Enum.sort_by(fn x -> x.number end, :asc)
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_assoc(:cds, cds)
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  def handle_event("validate", %{"_target" => ["album", "circle_search"]}, socket) do
     {:noreply, socket}
   end
-end
 
-defmodule AkyuuWeb.Album.AlbumLive do
-  @moduledoc false
+  def handle_event("validate", %{"album" => album}, socket) do
+    changeset = Music.Album.changeset(%Music.Album{}, album)
 
-  use Surface.LiveView
+    {:noreply, assign(socket, validated_changeset: changeset)}
+  end
 
-  import AkyuuWeb.AlbumView
+  defp filter_cd(nil, _), do: %Ecto.Changeset{}
 
-  alias Akyuu.Music
-  alias Akyuu.Music.Album
-  alias AkyuuWeb.Album.AlbumLive.EditForm
-  alias AkyuuWeb.Components.DiscCard
-  alias AkyuuWeb.Components.Empty
-  alias AkyuuWeb.Components.EventCard
-  alias AkyuuWeb.Router.Helpers, as: Routes
+  defp filter_cd(changeset, cd_num) do
+    cs = Ecto.Changeset.get_change(changeset, :cds)
 
-  def mount(_params, %{"album_id" => album_id}, socket) do
-    id = String.to_integer(album_id)
-
-    case Music.find_album_by_id(id, :preload_all) do
-      nil ->
-        socket =
-          socket
-          |> put_flash(:error, "The requested album does not exist.")
-          |> redirect(to: Routes.page_path(socket, :index))
-
-        {:ok, socket}
-
-      album when not is_nil(album) ->
-        socket =
-          socket
-          |> assign(:album, album)
-          |> assign(:album_changeset, Album.changeset(album, %{}))
-
-        {:ok, socket}
+    if cs != nil do
+      cs
+      |> Enum.find(fn x ->
+        number = Ecto.Changeset.get_field(x, :number)
+        number == cd_num
+      end)
+    else
+      changeset
     end
   end
 
-  def update_action(socket, album) do
-    Routes.album_path(socket, :update, album.id)
+  defp filter_track(nil, _), do: nil
+
+  defp filter_track(changeset, track_num) do
+    Ecto.Changeset.get_change(changeset, :tracks)
+    |> Enum.flat_map(fn x ->
+      if x.data.id == track_num do
+        x
+      end
+    end)
   end
 
-  def render("css", _assigns) do
-    {:safe, "<link rel='stylesheet' src='/css/album.css'/>"}
+  defp error_tag(nil, _), do: ""
+
+  defp error_tag(changeset, field) do
+    Enum.map(Keyword.get_values(changeset.errors, field), fn {error, _} ->
+      Phoenix.HTML.Tag.content_tag(:span, error, class: "help is-danger")
+    end)
   end
 
-  def render(assigns) do
-    ~H"""
-    <div x-data="edit()">
-      <button class="button" @click="enable()" type="button"><i class="fas fa-edit"></i>Edit</button>
-
-      <EditForm id={{ @album.id }} changeset={{ @album_changeset }} album={{ @album }} />
-
-      <div class="album-head">
-        <div class="flex-image">
-          <div class="image-container">
-            <img class="album-cover-art" src="{{ get_cover_art(@album) }} "/>
-          </div>
-
-          <div class="album-summary image-content">
-            <span class="album-title">{{ @album.title }}</span>
-            <span class="album-label">{{ @album.label }}</span>
-            <span :if={{ @album.romaji_title }} class="album-romaji-title">{{ @album.romaji_title }}</span>
-            <span :if={{ @album.english_title }} class="album-english-title">{{ @album.english_title }}</span>
-
-            <p>Produced by the following circles</p>
-            <ul>
-              <li :for={{ circle <- @album.circles }}>{{ display_circle(circle) }}</li>
-            </ul>
-            <p>Length: {{ calculate_album_length(@album) }}</p>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="album-info">
-        <div class="tracks">
-          <h2>Discs</h2>
-          <Empty :for={{ disc <- @album.cds  }} >
-            <DiscCard disc={{ disc }} />
-          </Empty>
-        </div>
-
-        <div class="album-secondary-info">
-          <div class="preview" :if={{ @album.xfd_url }}>
-            <h2>Preview</h2>
-            <audio :if={{ direct_url?(@album.xfd_url) }} controls src={{ @album.xfd_url }} />
-            <iframe :if={{ youtube_url?(@album.xfd_url) }} src={{ @album.xfd_url }} scrolling="no" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-            <iframe :if={{ soundcloud_url?(@album.xfd_url) }} scrolling="no" frameborder="no" allow="autoplay" src={{ @album.xfd_url }}></iframe>
-          </div>
-          <div class="events">
-            <h2>Events</h2>
-            <Empty :for={{ edition <- @album.event_participations }}>
-              <EventCard edition={{ edition }} />
-            </Empty>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script>
-    function edit() {
-      return {
-        edit_mode: false,
-        enable() {
-          this.edit_mode = true
-          document.querySelector("body").setAttribute("noscroll", true)
-        },
-        disable() {
-          this.edit_mode = false
-          document.querySelector("body").removeAttribute("noscroll")
-        }
-      }
-    }
-    </script>
-    """
-  end
-
-  def handle_event("submit-form", %{"album" => album}, socket) do
-    case Music.update_album(socket.assigns.album.id, album, :preload_all) do
-      {:error, :album_not_found} ->
-        {:noreply, put_flash(socket, :error, "Can't edit album information")}
-
-      {:error, changeset} ->
-        socket
-        |> assign(:album, album)
-        |> assign(:album_changeset, changeset)
-
-        {:noreply, socket}
-
-      new_album ->
-        socket =
-          socket
-          |> assign(:album, new_album)
-          |> assign(:album_changeset, Album.changeset(new_album, %{}))
-
-        {:noreply, socket}
+  defp fetch_id(object) do
+    if object.id do
+      object.id
+    else
+      object.tmp_id
     end
+  end
+
+  defp gen_id() do
+    :crypto.strong_rand_bytes(2)
+    |> :crypto.bytes_to_integer()
   end
 end
