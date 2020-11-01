@@ -5,6 +5,7 @@ defmodule Akyuu.Music do
 
   alias Akyuu.Music.{
           Album,
+          AlbumEvent,
           CD,
           Circle,
           Track,
@@ -154,9 +155,6 @@ defmodule Akyuu.Music do
   @spec find_album_by_id(id :: non_neg_integer(), preload_list :: [atom()]) :: Album.t() | nil
   def find_album_by_id(id, preload_list \\ [])
 
-  @doc """
-  Find an album by its id and preloads all useful fields in one query.
-  """
   @spec find_album_by_id(id :: non_neg_integer(), :preload_all) :: Album.t() | nil
   def find_album_by_id(id, :preload_all) do
     query =
@@ -219,9 +217,6 @@ defmodule Akyuu.Music do
     end
   end
 
-  @doc """
-  Given the id of an album, updates its fields with a new changeset.
-  """
   @spec update_album(album :: Album.t(), attrs :: %{}, preload_list :: [atom()]) ::
           any()
   def update_album(album = %Album{}, attrs, preload_list) do
@@ -230,6 +225,10 @@ defmodule Akyuu.Music do
     |> Album.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:tracks, with: &Track.changeset/2)
     |> Repo.update()
+  end
+
+  def change_album(album = %Album{}, attrs \\ %{}) do
+    Album.changeset(album, attrs)
   end
 
   @doc """

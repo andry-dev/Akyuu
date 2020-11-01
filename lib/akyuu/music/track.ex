@@ -39,7 +39,7 @@ defmodule Akyuu.Music.Track do
   end
 
   @doc false
-  def changeset(track, attrs) do
+  def changeset(track, attrs \\ %{}) do
     track
     |> cast(attrs, [
       :number,
@@ -51,6 +51,7 @@ defmodule Akyuu.Music.Track do
     ])
     |> validate_required([:number, :title, :length])
     |> validate_number(:number, greater_than: 0)
+    |> cast_assoc(:performed_by_members, with: &Akyuu.Music.TrackMember.changeset/2)
   end
 
   def search(schema, name) do

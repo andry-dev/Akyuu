@@ -59,7 +59,7 @@ defmodule Akyuu.Music.Circle do
   end
 
   @doc false
-  def changeset(circle, attrs) do
+  def changeset(circle, attrs \\ %{}) do
     circle
     |> cast(attrs, [:name, :romaji_name, :english_name])
     |> validate_required([:name])

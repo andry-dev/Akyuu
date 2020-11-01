@@ -25,7 +25,7 @@ defmodule Akyuu.Music.EventEdition do
     field :start_date, :date
     field :end_date, :date
 
-    has_many :albums, Akyuu.Music.AlbumEvent, foreign_key: :event_id
+    has_many :albums, Akyuu.Music.AlbumEvent, foreign_key: :edition_id
 
     belongs_to :event, Event
 

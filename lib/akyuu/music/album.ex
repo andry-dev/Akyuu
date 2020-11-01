@@ -11,7 +11,7 @@ defmodule Akyuu.Music.Album do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias Akyuu.Music.{Album, AlbumCD, CD}
+  alias Akyuu.Music.{Album, AlbumCD, AlbumEvent, CD, Circle}
   alias Akyuu.Repo
 
   @typedoc """
@@ -77,6 +77,9 @@ defmodule Akyuu.Music.Album do
     album
     |> cast(attrs, @required_fields)
     |> validate_required([:title])
+    |> Ecto.Changeset.cast_assoc(:cds, with: &CD.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:circles, with: &Circle.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:event_participations, with: &AlbumEvent.changeset/2)
   end
 
   @doc false

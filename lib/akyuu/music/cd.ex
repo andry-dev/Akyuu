@@ -27,6 +27,8 @@ defmodule Akyuu.Music.CD do
     field :english_title, :string
     field :hidden?, :boolean, source: :is_hidden, default: false
 
+    field :tmp_id, :integer, virtual: true
+
     many_to_many :albums, Akyuu.Music.Album, join_through: Akyuu.Music.AlbumCD
 
     many_to_many :tracks, Akyuu.Music.Track,
@@ -39,11 +41,12 @@ defmodule Akyuu.Music.CD do
   end
 
   @doc false
-  def changeset(struct_or_changeset, attrs) do
+  def changeset(struct_or_changeset, attrs \\ %{}) do
     struct_or_changeset
     |> cast(attrs, [:number, :title, :romaji_title, :english_title, :hidden?])
     |> validate_required(:number)
     |> validate_number(:number, greater_than: 0)
+    |> cast_assoc(:tracks, with: &Track.changeset/2)
   end
 
   @doc """
